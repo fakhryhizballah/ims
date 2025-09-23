@@ -1,41 +1,41 @@
-<div class="hidden lg:flex w-64 bg-white shadow-lg">
+<div class="hidden lg:flex w-64 bg-white dark:bg-dark-surface shadow-lg transition-colors duration-200">
     <div class="h-full flex flex-col w-full">
         <!-- Logo -->
-        <div class="flex items-center justify-center h-16 bg-indigo-600 text-white">
+        <div class="flex items-center justify-center h-16 bg-indigo-600 dark:bg-indigo-700 text-white transition-colors duration-200">
             <i class="fas fa-cube text-2xl mr-2"></i>
-            <span class="text-xl font-bold">IMS-MBG</span>
+            <span class="text-xl font-bold">MyApp</span>
         </div>
 
         <!-- Navigation -->
         <nav class="flex-1 px-4 py-6 space-y-2">
-            <a href="/dashboard" class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors <%= page === 'dashboard' ? 'bg-indigo-50 text-indigo-600' : '' %>">
+            <a href="/dashboard" class="flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-dark-muted hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors <%= page === 'dashboard' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400' : '' %>">
                 <i class="fas fa-tachometer-alt w-5 text-center mr-3"></i>
                 Dashboard
             </a>
             
-            <a href="/users" class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors <%= page === 'users' ? 'bg-indigo-50 text-indigo-600' : '' %>">
+            <a href="/users" class="flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-dark-muted hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors <%= page === 'users' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400' : '' %>">
                 <i class="fas fa-users w-5 text-center mr-3"></i>
                 Users
             </a>
             
-            <a href="/products" class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors <%= page === 'products' ? 'bg-indigo-50 text-indigo-600' : '' %>">
+            <a href="/products" class="flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-dark-muted hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors <%= page === 'products' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400' : '' %>">
                 <i class="fas fa-box w-5 text-center mr-3"></i>
                 Products
             </a>
             
-            <a href="/reports" class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors <%= page === 'reports' ? 'bg-indigo-50 text-indigo-600' : '' %>">
+            <a href="/reports" class="flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-dark-muted hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors <%= page === 'reports' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400' : '' %>">
                 <i class="fas fa-chart-bar w-5 text-center mr-3"></i>
                 Reports
             </a>
             
-            <div class="border-t border-gray-200 my-4"></div>
+            <div class="border-t border-gray-200 dark:border-gray-600 my-4"></div>
             
-            <a href="#" class="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+            <a href="#" class="flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-dark-muted hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                 <i class="fas fa-cog w-5 text-center mr-3"></i>
                 Settings
             </a>
             
-            <a href="/logout" class="flex items-center px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
+            <a href="/logout" class="flex items-center px-3 py-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                 <i class="fas fa-sign-out-alt w-5 text-center mr-3"></i>
                 Logout
             </a>

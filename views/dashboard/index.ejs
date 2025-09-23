@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" x-data="themeStore()" :class="{ 'dark': isDark }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#0f172a',
+                            surface: '#1e293b',
+                            card: '#334155',
+                            text: '#f1f5f9',
+                            muted: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <%- include('../partials/sidebar', { page: page }) %>
@@ -19,79 +37,79 @@
             <%- include('../partials/header', { user: user, title: title }) %>
             
             <!-- Main Content Area -->
-            <main class="flex-1 overflow-auto bg-gray-50 p-6">
+            <main class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-6 transition-colors duration-200">
 
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-600">Total Users</p>
-                <h3 class="text-2xl font-bold text-gray-900">1,234</h3>
+                <p class="text-sm text-gray-600 dark:text-dark-muted">Total Users</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">1,234</h3>
             </div>
-            <div class="bg-blue-50 p-3 rounded-lg">
-                <i class="fas fa-users text-blue-600 text-xl"></i>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                <i class="fas fa-users text-blue-600 dark:text-blue-400 text-xl"></i>
             </div>
         </div>
         <div class="mt-4">
-            <span class="text-sm text-green-600">
+            <span class="text-sm text-green-600 dark:text-green-400">
                 <i class="fas fa-arrow-up mr-1"></i>12%
             </span>
-            <span class="text-sm text-gray-500">dari bulan lalu</span>
+            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-600">Total Products</p>
-                <h3 class="text-2xl font-bold text-gray-900">567</h3>
+                <p class="text-sm text-gray-600 dark:text-dark-muted">Total Products</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">567</h3>
             </div>
-            <div class="bg-green-50 p-3 rounded-lg">
-                <i class="fas fa-box text-green-600 text-xl"></i>
+            <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                <i class="fas fa-box text-green-600 dark:text-green-400 text-xl"></i>
             </div>
         </div>
         <div class="mt-4">
-            <span class="text-sm text-green-600">
+            <span class="text-sm text-green-600 dark:text-green-400">
                 <i class="fas fa-arrow-up mr-1"></i>8%
             </span>
-            <span class="text-sm text-gray-500">dari bulan lalu</span>
+            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-600">Revenue</p>
-                <h3 class="text-2xl font-bold text-gray-900">$45,678</h3>
+                <p class="text-sm text-gray-600 dark:text-dark-muted">Revenue</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">$45,678</h3>
             </div>
-            <div class="bg-yellow-50 p-3 rounded-lg">
-                <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
+                <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400 text-xl"></i>
             </div>
         </div>
         <div class="mt-4">
-            <span class="text-sm text-red-600">
+            <span class="text-sm text-red-600 dark:text-red-400">
                 <i class="fas fa-arrow-down mr-1"></i>3%
             </span>
-            <span class="text-sm text-gray-500">dari bulan lalu</span>
+            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-600">Orders</p>
-                <h3 class="text-2xl font-bold text-gray-900">890</h3>
+                <p class="text-sm text-gray-600 dark:text-dark-muted">Orders</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">890</h3>
             </div>
-            <div class="bg-purple-50 p-3 rounded-lg">
-                <i class="fas fa-shopping-cart text-purple-600 text-xl"></i>
+            <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                <i class="fas fa-shopping-cart text-purple-600 dark:text-purple-400 text-xl"></i>
             </div>
         </div>
         <div class="mt-4">
-            <span class="text-sm text-green-600">
+            <span class="text-sm text-green-600 dark:text-green-400">
                 <i class="fas fa-arrow-up mr-1"></i>15%
             </span>
-            <span class="text-sm text-gray-500">dari bulan lalu</span>
+            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
         </div>
     </div>
 </div>
@@ -175,10 +193,48 @@
                     <span class="text-sm font-medium text-purple-900">Settings</span>
                 </button>
             </div>
+            </main>
         </div>
     </div>
 
     <%- include('../partials/footer') %>
-</div>
+
+    <script>
+        // Alpine.js store for theme management
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('theme', {
+                isDark: <%= typeof isDarkMode !== 'undefined' ? isDarkMode : false %>,
+                
+                toggle() {
+                    this.isDark = !this.isDark;
+                    fetch('/api/theme/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.documentElement.classList.toggle('dark');
+                        }
+                    })
+                    .catch(error => console.error('Theme toggle error:', error));
+                }
+            });
+        });
+
+        // Global theme store function
+        function themeStore() {
+            return {
+                isDark: <%= isDarkMode ? 'true' : 'false' %>,
+                
+                toggleDarkMode() {
+                    Alpine.store('theme').toggle();
+                    this.isDark = !this.isDark;
+                }
+            }
+        }
+    </script>
 </body>
 </html>

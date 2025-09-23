@@ -24,7 +24,7 @@ const toggleTheme = (req, res) => {
 
     // Save theme in session and cookie
     req.session.theme = newTheme;
-    res.cookie('theme', newTheme, {
+    res.cookie('theme', newTheme, { 
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         httpOnly: false, // Allow JavaScript access for immediate UI updates
         secure: process.env.NODE_ENV === 'production',
@@ -32,7 +32,7 @@ const toggleTheme = (req, res) => {
     });
 
     res.json({
-        success: true,
+        success: true, 
         theme: newTheme,
         message: `Switched to ${newTheme} mode`
     });
@@ -45,13 +45,13 @@ const setTheme = (req, res) => {
     if (!['light', 'dark'].includes(theme)) {
         return res.status(400).json({
             success: false,
-            message: 'Invalid theme. Use "light" or "dark".'
+            message: 'Invalid theme. Use "light" or "dark".' 
         });
     }
 
     // Save theme in session and cookie
     req.session.theme = theme;
-    res.cookie('theme', theme, {
+    res.cookie('theme', theme, { 
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
@@ -59,7 +59,7 @@ const setTheme = (req, res) => {
     });
 
     res.json({
-        success: true,
+        success: true, 
         theme: theme,
         message: `Theme set to ${theme} mode`
     });

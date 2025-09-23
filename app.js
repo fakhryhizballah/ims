@@ -6,30 +6,35 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Import middleware
+const { addUserToLocals } = require('./middleware/auth');
+const { themeMiddleware } = require('./middleware/theme');
+
+// Import routes
+const routes = require('./routes');
+
 // Middleware
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: {
+        secure: false, // Set to true in production with HTTPS
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
 }));
+
+// Global middleware
+app.use(addUserToLocals);
+app.use(themeMiddleware);
 
 // View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Auth middleware
-const requireAuth = (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-};
 
 // Routes
 app.get('/', (req, res) => {
@@ -40,68 +45,29 @@ app.get('/', (req, res) => {
     }
 });
 
-app.get('/login', (req, res) => {
-    if (req.session.user) {
-        res.redirect('/dashboard');
-    } else {
-        res.render('auth/login', {
-            title: 'Login',
-            error: null
-        });
-    }
-});
+// Mount routes
+app.use('/', routes);
 
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    // Simple auth (replace with real authentication)
-    if (username === 'admin' && password === 'admin') {
-        req.session.user = { username: 'admin', name: 'Administrator' };
-        res.redirect('/dashboard');
-    } else {
-        res.render('auth/login', {
-            title: 'Login',
-            error: 'Username atau password salah'
-        });
-    }
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
-});
-
-app.get('/dashboard', requireAuth, (req, res) => {
-    res.render('dashboard/index', {
-        title: 'Dashboard',
-        user: req.session.user,
-        page: 'dashboard'
+// 404 Error handler
+app.use((req, res) => {
+    res.status(404).render('errors/404', {
+        title: 'Page Not Found',
+        message: 'The page you are looking for does not exist.'
     });
 });
 
-app.get('/users', requireAuth, (req, res) => {
-    res.render('users/index', {
-        title: 'Users',
-        user: req.session.user,
-        page: 'users'
-    });
-});
-
-app.get('/products', requireAuth, (req, res) => {
-    res.render('products/index', {
-        title: 'Products',
-        user: req.session.user,
-        page: 'products'
-    });
-});
-
-app.get('/reports', requireAuth, (req, res) => {
-    res.render('reports/index', {
-        title: 'Reports',
-        user: req.session.user,
-        page: 'reports'
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('errors/500', {
+        title: 'Server Error',
+        message: process.env.NODE_ENV === 'production'
+            ? 'Something went wrong on our end.'
+            : err.message
     });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`📝 Login credentials: username: admin, password: admin`);
 });

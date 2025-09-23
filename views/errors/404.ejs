@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id" x-data="themeStore()" :class="{ 'dark': isDark }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#0f172a',
+                            surface: '#1e293b',
+                            card: '#334155',
+                            text: '#f1f5f9',
+                            muted: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-surface transition-colors duration-200">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full text-center">
+            <div class="bg-white dark:bg-dark-surface rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-600 transition-colors duration-200">
+                <!-- Error Icon -->
+                <div class="mx-auto h-20 w-20 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-exclamation-triangle text-red-500 dark:text-red-400 text-3xl"></i>
+                </div>
+                
+                <!-- Error Code -->
+                <h1 class="text-6xl font-bold text-gray-900 dark:text-dark-text mb-4">404</h1>
+                
+                <!-- Error Title -->
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-dark-text mb-4"><%= title %></h2>
+                
+                <!-- Error Message -->
+                <p class="text-gray-600 dark:text-dark-muted mb-8"><%= message %></p>
+                
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <a href="/dashboard" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors inline-block">
+                        <i class="fas fa-home mr-2"></i>
+                        Back to Dashboard
+                    </a>
+                    
+                    <button onclick="history.back()" class="w-full bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-dark-text py-3 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Go Back
+                    </button>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+                    <button @click="toggleDarkMode()" class="text-sm text-gray-500 dark:text-dark-muted hover:text-gray-700 dark:hover:text-dark-text transition-colors">
+                        <i class="fas fa-moon dark:fas fa-sun mr-2"></i>
+                        <span x-text="isDark ? 'Light Mode' : 'Dark Mode'">Toggle Theme</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global theme store function
+        function themeStore() {
+            return {
+                isDark: <%= typeof isDarkMode !== 'undefined' ? isDarkMode : 'false' %>,
+                
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    document.documentElement.classList.toggle('dark');
+                    
+                    // Save preference to localStorage
+                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+                }
+            }
+        }
+        
+        // Initialize theme from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        });
+    </script>
+</body>
+</html>
