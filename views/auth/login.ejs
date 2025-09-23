@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="mx-auto h-12 w-12 bg-indigo-600 rounded-full flex items-center justify-center">
+                <i class="fas fa-cube text-white text-xl"></i>
+            </div>
+            <h2 class="mt-4 text-3xl font-bold text-gray-900">Login</h2>
+            <p class="mt-2 text-sm text-gray-600">Silakan masuk ke akun Anda</p>
+        </div>
+
+        <!-- Error Alert -->
+        <% if (error) { %>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <i class="fas fa-exclamation-circle text-red-400 mr-2 mt-0.5"></i>
+                <p class="text-sm text-red-700"><%= error %></p>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Form -->
+        <form method="POST" action="/login" class="space-y-6">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <input 
+                    id="username" 
+                    name="username" 
+                    type="text" 
+                    required 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="Masukkan username"
+                >
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <div class="relative">
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-10"
+                        placeholder="Masukkan password"
+                    >
+                    <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <i id="password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 block text-sm text-gray-900">Remember me</label>
+                </div>
+                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Lupa password?</a>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+            >
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Masuk
+            </button>
+        </form>
+
+        <!-- Demo Info -->
+        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p class="text-sm text-blue-800">
+                <i class="fas fa-info-circle mr-1"></i>
+                Demo: Username: <strong>admin</strong>, Password: <strong>admin</strong>
+            </p>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const passwordIcon = document.getElementById('password-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.className = 'fas fa-eye-slash text-gray-400 hover:text-gray-600';
+    } else {
+        passwordInput.type = 'password';
+        passwordIcon.className = 'fas fa-eye text-gray-400 hover:text-gray-600';
+    }
+}
+</script>

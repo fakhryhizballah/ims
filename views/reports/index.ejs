@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <%- include('../partials/sidebar', { page: page }) %>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <%- include('../partials/header', { user: user, title: title }) %>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-auto bg-gray-50 p-6">
+
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900">Reports & Analytics</h2>
+            <p class="text-gray-600">Monitor performance dan analisis data</p>
+        </div>
+        <div class="flex space-x-3">
+            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                <i class="fas fa-download mr-2"></i>Export PDF
+            </button>
+            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>Custom Report
+            </button>
+        </div>
+    </div>
+
+    <!-- Date Range Filter -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
+                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option>Sales Report</option>
+                    <option>User Activity</option>
+                    <option>Product Performance</option>
+                    <option>Revenue Analysis</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button class="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                    <i class="fas fa-chart-line mr-2"></i>Generate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Total Orders</p>
+                    <h3 class="text-2xl font-bold text-gray-900">1,247</h3>
+                    <div class="mt-2">
+                        <span class="text-sm text-green-600">
+                            <i class="fas fa-arrow-up mr-1"></i>8.2%
+                        </span>
+                        <span class="text-sm text-gray-500">vs last month</span>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg">
+                    <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Avg Order Value</p>
+                    <h3 class="text-2xl font-bold text-gray-900">$99.87</h3>
+                    <div class="mt-2">
+                        <span class="text-sm text-red-600">
+                            <i class="fas fa-arrow-down mr-1"></i>2.1%
+                        </span>
+                        <span class="text-sm text-gray-500">vs last month</span>
+                    </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <i class="fas fa-chart-line text-yellow-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Conversion Rate</p>
+                    <h3 class="text-2xl font-bold text-gray-900">3.45%</h3>
+                    <div class="mt-2">
+                        <span class="text-sm text-green-600">
+                            <i class="fas fa-arrow-up mr-1"></i>0.5%
+                        </span>
+                        <span class="text-sm text-gray-500">vs last month</span>
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-3 rounded-lg">
+                    <i class="fas fa-percentage text-purple-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Revenue Chart -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Revenue Trend</h3>
+                <select class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+                    <option>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Last 3 months</option>
+                </select>
+            </div>
+            <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                <div class="text-center">
+                    <i class="fas fa-chart-area text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-gray-500">Chart placeholder - Revenue over time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales by Category -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Sales by Category</h3>
+                <button class="text-sm text-indigo-600 hover:text-indigo-800">View Details</button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-700">Electronics</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-900 mr-2">45%</span>
+                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                            <div class="w-9 h-2 bg-blue-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-700">Fashion</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-900 mr-2">32%</span>
+                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                            <div class="w-6 h-2 bg-green-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-700">Home & Garden</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-900 mr-2">23%</span>
+                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                            <div class="w-5 h-2 bg-yellow-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Top Products -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Top Products</h3>
+                    <a href="/products" class="text-sm text-indigo-600 hover:text-indigo-800">View All</a>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sales</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Smartphone XYZ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">234</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$69,966</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Laptop ABC</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">156</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$140,244</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Headphones DEF</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">89</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$17,711</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
+                    <button class="text-sm text-indigo-600 hover:text-indigo-800">View All</button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-green-50 p-2 rounded-full">
+                                <i class="fas fa-arrow-down text-green-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">#ORD-001234</p>
+                                <p class="text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-green-600">+$299.99</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-green-50 p-2 rounded-full">
+                                <i class="fas fa-arrow-down text-green-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">#ORD-001235</p>
+                                <p class="text-xs text-gray-500">5 hours ago</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-green-600">+$156.50</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-red-50 p-2 rounded-full">
+                                <i class="fas fa-arrow-up text-red-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Refund #REF-567</p>
+                                <p class="text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-red-600">-$89.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</div>
+</body>
+</html>

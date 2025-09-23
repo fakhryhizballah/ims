@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <%- include('../partials/sidebar', { page: page }) %>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <%- include('../partials/header', { user: user, title: title }) %>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-auto bg-gray-50 p-6">
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-600">Total Users</p>
+                <h3 class="text-2xl font-bold text-gray-900">1,234</h3>
+            </div>
+            <div class="bg-blue-50 p-3 rounded-lg">
+                <i class="fas fa-users text-blue-600 text-xl"></i>
+            </div>
+        </div>
+        <div class="mt-4">
+            <span class="text-sm text-green-600">
+                <i class="fas fa-arrow-up mr-1"></i>12%
+            </span>
+            <span class="text-sm text-gray-500">dari bulan lalu</span>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-600">Total Products</p>
+                <h3 class="text-2xl font-bold text-gray-900">567</h3>
+            </div>
+            <div class="bg-green-50 p-3 rounded-lg">
+                <i class="fas fa-box text-green-600 text-xl"></i>
+            </div>
+        </div>
+        <div class="mt-4">
+            <span class="text-sm text-green-600">
+                <i class="fas fa-arrow-up mr-1"></i>8%
+            </span>
+            <span class="text-sm text-gray-500">dari bulan lalu</span>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-600">Revenue</p>
+                <h3 class="text-2xl font-bold text-gray-900">$45,678</h3>
+            </div>
+            <div class="bg-yellow-50 p-3 rounded-lg">
+                <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+            </div>
+        </div>
+        <div class="mt-4">
+            <span class="text-sm text-red-600">
+                <i class="fas fa-arrow-down mr-1"></i>3%
+            </span>
+            <span class="text-sm text-gray-500">dari bulan lalu</span>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-600">Orders</p>
+                <h3 class="text-2xl font-bold text-gray-900">890</h3>
+            </div>
+            <div class="bg-purple-50 p-3 rounded-lg">
+                <i class="fas fa-shopping-cart text-purple-600 text-xl"></i>
+            </div>
+        </div>
+        <div class="mt-4">
+            <span class="text-sm text-green-600">
+                <i class="fas fa-arrow-up mr-1"></i>15%
+            </span>
+            <span class="text-sm text-gray-500">dari bulan lalu</span>
+        </div>
+    </div>
+</div>
+
+<!-- Charts and Tables -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-50 p-2 rounded-full">
+                        <i class="fas fa-user text-blue-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">User baru mendaftar</p>
+                        <p class="text-xs text-gray-500">2 menit yang lalu</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <div class="bg-green-50 p-2 rounded-full">
+                        <i class="fas fa-shopping-cart text-green-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Order baru diterima</p>
+                        <p class="text-xs text-gray-500">5 menit yang lalu</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <div class="bg-yellow-50 p-2 rounded-full">
+                        <i class="fas fa-box text-yellow-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Product baru ditambahkan</p>
+                        <p class="text-xs text-gray-500">10 menit yang lalu</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <div class="bg-red-50 p-2 rounded-full">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Stock produk menipis</p>
+                        <p class="text-xs text-gray-500">15 menit yang lalu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-2 gap-4">
+                <a href="/users" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <i class="fas fa-user-plus text-blue-600 text-2xl mb-2"></i>
+                    <span class="text-sm font-medium text-blue-900">Add User</span>
+                </a>
+                
+                <a href="/products" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                    <i class="fas fa-plus text-green-600 text-2xl mb-2"></i>
+                    <span class="text-sm font-medium text-green-900">Add Product</span>
+                </a>
+                
+                <a href="/reports" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors">
+                    <i class="fas fa-chart-line text-yellow-600 text-2xl mb-2"></i>
+                    <span class="text-sm font-medium text-yellow-900">View Reports</span>
+                </a>
+                
+                <button class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                    <i class="fas fa-cog text-purple-600 text-2xl mb-2"></i>
+                    <span class="text-sm font-medium text-purple-900">Settings</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</div>
+</body>
+</html>
