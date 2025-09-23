@@ -203,7 +203,7 @@
         // Alpine.js store for theme management
         document.addEventListener('alpine:init', () => {
             Alpine.store('theme', {
-                isDark: <%= typeof isDarkMode !== 'undefined' ? isDarkMode : false %>,
+                isDark: <%= isDarkMode ? 'true' : 'false' %>,
                 
                 toggle() {
                     this.isDark = !this.isDark;
