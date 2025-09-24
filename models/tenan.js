@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Tenan.init({
     nama: DataTypes.STRING,
-    alamat: DataTypes.STRING
+    alamat: DataTypes.STRING,
+    status: DataTypes.ENUM('1', '0')
   }, {
     sequelize,
     modelName: 'Tenan',
