@@ -2,10 +2,10 @@
 const authController = {
     // Show login page
     showLogin: (req, res) => {
-        if (req.session.user) {
-            return res.redirect('/dashboard');
-        }
+        const r = req.csrfToken;
+        console.log(r);
         res.render('auth/login', {
+            csrfToken: r,
             title: 'Login',
             error: null
         });

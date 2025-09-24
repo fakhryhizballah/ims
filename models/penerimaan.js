@@ -20,7 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     satuan_besar: DataTypes.DOUBLE,
     satuan_kecil: DataTypes.DOUBLE,
     harga: DataTypes.INTEGER,
-    total_harga: DataTypes.INTEGER
+    total_harga: DataTypes.INTEGER,
+    user_username: DataTypes.STRING,
+    depo_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Penerimaan',

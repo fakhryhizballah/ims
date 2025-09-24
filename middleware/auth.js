@@ -1,45 +1,44 @@
-// middleware/auth.js
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 
-// Require authentication middleware
-const requireAuth = (req, res, next) => {
-    if (req.session && req.session.user) {
-        return next();
-    } else {
-        return res.redirect('/login');
-    }
-};
+const SECRET_KEY = process.env.JWT_SECRET_KEY || "supersecret";
 
-// Check if user is guest (not logged in)
-const requireGuest = (req, res, next) => {
-    if (req.session && req.session.user) {
-        return res.redirect('/dashboard');
-    } else {
-        return next();
-    }
-};
 
-// Check if user has admin role
-const requireAdmin = (req, res, next) => {
-    if (req.session && req.session.user && req.session.user.role === 'admin') {
-        return next();
-    } else {
-        return res.status(403).render('errors/403', {
-            title: 'Access Forbidden',
-            message: 'You do not have permission to access this resource.'
-        });
-    }
-};
-
-// Add user to locals for views
-const addUserToLocals = (req, res, next) => {
-    res.locals.user = req.session.user || null;
-    res.locals.isAuthenticated = !!req.session.user;
+const csrfToken = (req, res, next) => {
+    res.csrfToken = generateOneTimeToken();
     next();
 };
 
+
+// Membuat one time token
+async function generateOneTimeToken() {
+    const jti = uuidv4(); // unique id token
+    const token = jwt.sign({ payload }, SECRET_KEY, { expiresIn: "10m" });
+
+    // simpan ke redis dengan ttl sesuai expire
+    await redis.set(`token:${jti}`, "valid", "EX", 600);
+
+    return token;
+}
+async function verifyOneTimeToken(token) {
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const status = await redis.get(`token:${decoded.jti}`);
+
+        if (status === "valid") {
+            // sekali pakai → hapus atau tandai used
+            await redis.del(`token:${decoded.jti}`);
+            return decoded;
+        } else {
+            throw new Error("Token sudah dipakai atau tidak valid");
+        }
+    } catch (err) {
+        throw new Error("Token tidak valid / expired");
+    }
+}
+
+
 module.exports = {
-    requireAuth,
-    requireGuest,
-    requireAdmin,
-    addUserToLocals
+    csrfToken,
+
 };

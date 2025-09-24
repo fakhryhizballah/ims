@@ -6,10 +6,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Import middleware
-const { addUserToLocals } = require('./middleware/auth');
-const { themeMiddleware } = require('./middleware/theme');
-
 // Import routes
 const routes = require('./routes');
 
@@ -18,19 +14,8 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false, // Set to true in production with HTTPS
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-}));
 
-// Global middleware
-app.use(addUserToLocals);
-app.use(themeMiddleware);
+
 
 // View engine
 app.set('view engine', 'ejs');

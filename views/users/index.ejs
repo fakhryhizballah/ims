@@ -170,10 +170,36 @@
                 </div>
             </div>
         </div>
+            </main>
         </div>
     </div>
 
-    <%- include('../partials/footer') %>
-</div>
+    <script>
+        // Global theme store function
+        function themeStore() {
+            return {
+                isDark: document.documentElement.classList.contains('dark'),
+                
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+                }
+            }
+        }
+
+        // Initialize theme from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
+            
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
 </body>
 </html>

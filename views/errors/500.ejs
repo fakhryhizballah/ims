@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" x-data="themeStore()" :class="{ 'dark': isDark }">
+<html lang="id" x-data="themeStore()">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,13 +72,11 @@
         // Global theme store function
         function themeStore() {
             return {
-                isDark: <%= typeof isDarkMode !== 'undefined' ? isDarkMode : 'false' %>,
+                isDark: document.documentElement.classList.contains('dark'),
                 
                 toggleDarkMode() {
                     this.isDark = !this.isDark;
                     document.documentElement.classList.toggle('dark');
-                    
-                    // Save preference to localStorage
                     localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
                 }
             }
@@ -86,8 +84,11 @@
         
         // Initialize theme from localStorage
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
+            
+            if (shouldBeDark) {
                 document.documentElement.classList.add('dark');
             }
         });

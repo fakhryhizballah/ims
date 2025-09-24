@@ -20,8 +20,7 @@ const dashboardController = {
             title: 'Dashboard',
             user: req.session.user,
             page: 'dashboard',
-            stats: stats,
-            recentActivity: recentActivity
+            stats: stats
         });
     }
 };

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   JenisSatuan.init({
+    slug: DataTypes.STRING,
     nama_satuan: DataTypes.STRING
   }, {
     sequelize,
