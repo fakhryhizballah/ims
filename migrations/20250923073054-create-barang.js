@@ -11,6 +11,7 @@ module.exports = {
       },
       kode_barang: {
         type: Sequelize.STRING,
+        primaryKey: true,
         unique: true,
         allowNull: false
       },
@@ -21,26 +22,34 @@ module.exports = {
       jenis_barang: {
         type: Sequelize.STRING,
         references: {
-          model: 'jenis_barangs',
-          key: 'kode_jenis' // Mereferensikan kolom unik, bukan primary key
+          model: {
+            tableName: 'JenisBarangs'
+          },
+          key: 'kode_jenis' 
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'RESTRICT'
       },
       satuan_besar: {
         type: Sequelize.STRING,
         references: {
-          model: 'jenis_satuans',
-          key: 'nama_satuan' // Mereferensikan kolom unik
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+          model: {
+            tableName: 'JenisSatuans'
+          },
+          key: 'slug' // Mereferensikan kolom unik
+        }
       },
       isi: {
         type: Sequelize.INTEGER
       },
       satuan_kecil: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
+        references: {
+          model: {
+            tableName: 'JenisSatuans'
+          },
+          key: 'slug' // Mereferensikan kolom unik
+        }
       },
       harga: {
         type: Sequelize.INTEGER
@@ -49,11 +58,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'tenans',
+          model: {
+            tableName: 'Tenans'
+          },
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'RESTRICT'
       },
       status: {
         type: Sequelize.ENUM('1', '0'),

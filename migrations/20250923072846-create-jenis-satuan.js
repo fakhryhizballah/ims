@@ -9,6 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      slug: {
+        type: Sequelize.STRING,
+        unique: true,
+        primaryKey: true,
+        allowNull: false
+      },
       nama_satuan: {
         type: Sequelize.STRING,
         unique: true,

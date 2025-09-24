@@ -11,9 +11,10 @@ module.exports = {
       },
       id_tenan: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'tenans',
+          model: {
+            tableName: 'Tenans'
+          },
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -21,6 +22,7 @@ module.exports = {
       },
       kode_jenis: {
         type: Sequelize.STRING,
+        primaryKey: true,
         unique: true
       },
       jenis_barang: {

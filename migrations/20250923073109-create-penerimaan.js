@@ -10,7 +10,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       kode_barang: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'Barangs'
+          },
+          key: 'kode_barang'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       tanggal: {
         type: Sequelize.DATE
@@ -29,6 +38,29 @@ module.exports = {
       },
       total_harga: {
         type: Sequelize.INTEGER
+      },
+      user_username: { // Nama kolom diubah
+        type: Sequelize.STRING,
+        references: {
+          model: {
+            tableName: 'Users'
+          },
+          key: 'username'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      depo_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'Depos'
+          },
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

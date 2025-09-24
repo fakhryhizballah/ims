@@ -9,12 +9,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_user: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      user_username: {
+        type: Sequelize.STRING,
         references: {
-          model: 'users',
-          key: 'id'
+          model: {
+            tableName: 'Users'
+          },
+          key: 'username'
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
@@ -23,7 +24,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'tenans',
+          model: {
+            tableName: 'Tenans'
+          },
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -39,7 +42,7 @@ module.exports = {
       }
     });
     // Menambahkan index unik untuk pasangan id_user dan id_tenan
-    await queryInterface.addIndex('akses', ['id_user', 'id_tenan'], {
+    await queryInterface.addIndex('Akses', ['user_username', 'id_tenan'], {
       unique: true,
       name: 'user_tenan_access_unique'
     });

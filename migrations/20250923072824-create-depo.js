@@ -15,9 +15,10 @@ module.exports = {
       },
       tenan_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'tenans', // Nama tabel referensi
+          model: {
+            tableName: 'Tenans'
+          },
           key: 'id'
         },
         onUpdate: 'CASCADE',

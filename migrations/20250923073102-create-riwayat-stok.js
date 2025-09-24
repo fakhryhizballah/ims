@@ -13,7 +13,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: 'barangs',
+          model: {
+            tableName: 'Barangs'
+          },
           key: 'kode_barang'
         },
         onUpdate: 'CASCADE',
@@ -23,7 +25,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'tenans',
+          model: {
+            tableName: 'Tenans'
+          },
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -47,14 +51,25 @@ module.exports = {
       user_username: { // Nama kolom diubah
         type: Sequelize.STRING,
         references: {
-          model: 'users',
+          model: {
+            tableName: 'Users'
+          },
           key: 'username'
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-      depo: {
-        type: Sequelize.INTEGER
+      depo_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'Depos'
+          },
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

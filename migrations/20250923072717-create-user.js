@@ -11,6 +11,7 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING,
+        primaryKey: true,
         unique: true
       },
       fullname: {
