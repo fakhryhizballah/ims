@@ -1,9 +1,9 @@
 // controllers/authController.js
+const { verifyOneTimeToken } = require('../middleware/auth.js');
 const authController = {
     // Show login page
-    showLogin: (req, res) => {
+    login: (req, res) => {
         const r = req.csrfToken;
-        console.log(r);
         res.render('auth/login', {
             csrfToken: r,
             title: 'Login',
@@ -14,32 +14,33 @@ const authController = {
     // Process login
     processLogin: (req, res) => {
         const { username, password } = req.body;
-
-        // Simple auth (replace with real authentication)
-        if (username === 'admin' && password === 'admin') {
-            req.session.user = {
-                id: 1,
-                username: 'admin',
-                name: 'Administrator',
-                role: 'admin'
-            };
-            return res.redirect('/dashboard');
+        console.log(req.body);
+        let verifyToken = verifyOneTimeToken(req.body._csrf);
+        if (!verifyToken) {
+            return res.redirect('/login');
         }
 
         res.render('auth/login', {
             title: 'Login',
+            csrfToken: req.csrfToken,
             error: 'Username atau password salah'
         });
+    },
+    forgotLogin: (req, res) => {
+        res.render('auth/forgot', {
+            title: 'lupa password',
+            csrfToken: req.csrfToken,
+            error: null
+        });
+    },
+    processForgot: (req, res) => {
+        return res.redirect('/login');
     },
 
     // Process logout
     processLogout: (req, res) => {
-        req.session.destroy((err) => {
-            if (err) {
-                console.log('Error destroying session:', err);
-            }
-            res.redirect('/login');
-        });
+
+        res.redirect('/login');
     }
 };
 

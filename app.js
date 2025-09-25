@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -23,11 +22,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 app.get('/', (req, res) => {
-    if (req.session.user) {
-        res.redirect('/dashboard');
-    } else {
+
         res.redirect('/login');
-    }
+
 });
 
 // Mount routes

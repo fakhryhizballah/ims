@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         slug: 'bks',
-        nama_satuan: 'Kilogram',
+        nama_satuan: 'Bungkus',
         createdAt: new Date(),
         updatedAt: new Date()
       },
