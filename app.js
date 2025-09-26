@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const { createClient } = require('redis');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,9 +23,26 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 app.get('/', (req, res) => {
-
         res.redirect('/login');
+});
+const client = createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_URL,
+        port: process.env.REDIS_URL_PORT
+    }
+});
+client.connect();
+client.on('connect', () => {
+    console.log('Redis client connected');
+});
+client.on('error', (err) => {
+    console.log('Something went wrong ' + err);
+});
 
+app.use((req, res, next) => {
+    req.cache = client;
+    next();
 });
 
 // Mount routes

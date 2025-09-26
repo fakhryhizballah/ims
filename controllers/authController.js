@@ -1,5 +1,5 @@
 // controllers/authController.js
-const { verifyOneTimeToken } = require('../middleware/auth.js');
+const { User, sequelize } = require("../models");
 const authController = {
     // Show login page
     login: (req, res) => {
@@ -14,12 +14,8 @@ const authController = {
     // Process login
     processLogin: (req, res) => {
         const { username, password } = req.body;
-        console.log(req.body);
-        let verifyToken = verifyOneTimeToken(req.body._csrf);
-        if (!verifyToken) {
-            return res.redirect('/login');
-        }
 
+        // Check if the username and password are correct
         res.render('auth/login', {
             title: 'Login',
             csrfToken: req.csrfToken,
@@ -41,6 +37,15 @@ const authController = {
     processLogout: (req, res) => {
 
         res.redirect('/login');
+    },
+    sendOTP: (req, res) => {
+        let { nowa } = req.body;
+        nowa = nowa.replace(/[^0-9]/g, '');
+        req.session.nowa = nowa;
+        return res.status(200).json({
+            error: false,
+            message: nowa,
+        });
     }
 };
 

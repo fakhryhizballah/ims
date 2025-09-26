@@ -6,6 +6,19 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY || "supersecret";
 
 const csrfToken = (req, res, next) => {
     req.csrfToken = generateOneTimeToken();
+    req.cache.set('csrfToken:' + req.csrfToken, "valid", {
+        EX: 120
+    });
+    next();
+};
+
+const verifyCsrfToken = (req, res, next) => {
+    const token = req.body._csrf;
+    const isValid = verifyOneTimeToken(token);
+    if (!isValid) {
+        return res.redirect('/login');
+    }
+    req.cache.del('csrfToken:' + token);
     next();
 };
 
@@ -29,6 +42,6 @@ function verifyOneTimeToken(token) {
 
 module.exports = {
     csrfToken,
-    verifyOneTimeToken
+    verifyCsrfToken
 
 };
