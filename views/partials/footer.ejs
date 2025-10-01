@@ -1,3 +1,119 @@
 <script>
+    const fetchData = async (url, method, body) => {
+        const response = await fetch(url, {
+                method: method,
+                body: JSON.stringify(body),
+                });
+                const data = await response.json();
+                return data;
+    }
+    const saveTenant = async () => {
+        let localStorageTenan = localStorage.getItem('tenan');
+        if(!localStorageTenan) {
+            let dataTenan = await fetchData('/api/tenan', 'GET' )
+            localStorage.setItem('tenan', JSON.stringify(dataTenan.data));
+            localStorage.setItem('selectedTenan', (dataTenan.data[0].nama));
+            localStorage.setItem('selectedTenanId', (dataTenan.data[0].id));
+        }
+        console.log(localStorage.getItem('selectedTenan'));
+       let tenantRole = document.getElementsByName('tenantRole')
+        for(let i=0; i<tenantRole.length; i++) {
+            tenantRole[i].innerHTML = localStorage.getItem('selectedTenan');
+        }
 
+    }
+    saveTenant();
+    
 </script>
+<!-- Script untuk buka tutup modal -->
+<script>
+    const openModalTenant = document.getElementById('openModalTenant');
+    const tenantModal = document.getElementById('tenantModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    
+        // Load tenant dari localStorage
+        let localStorageTenan = localStorage.getItem('tenan');
+        if(localStorageTenan) {
+            localStorageTenan = JSON.parse(localStorageTenan);
+            const tenantList = document.getElementById('tenantList');
+            tenantList.innerHTML = '';
+            localStorageTenan.forEach(tenan => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left px-4 py-2 rounded hover:bg-indigo-100 focus:outline-none focus:bg-indigo-100';
+                button.textContent = tenan.nama;
+                button.addEventListener('click', () => {
+                    localStorage.setItem('selectedTenan', tenan.nama);
+                    localStorage.setItem('selectedTenanId', tenan.id);
+                    let tenantRole = document.getElementsByName('tenantRole')
+                    for(let i=0; i<tenantRole.length; i++) {
+                        tenantRole[i].innerHTML = tenan.nama;
+                    }
+                    tenantModal.classList.add('hidden');
+                });
+                tenantList.appendChild(button);
+            });
+        }
+
+    openModalTenant.addEventListener('click', () => {
+        tenantModal.classList.remove('hidden');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        tenantModal.classList.add('hidden');
+    });
+
+    cancelModalBtn.addEventListener('click', () => {
+        tenantModal.classList.add('hidden');
+    });
+
+    // Tutup modal jika klik di luar konten modal
+    tenantModal.addEventListener('click', (e) => {
+        if (e.target === tenantModal) {
+            tenantModal.classList.add('hidden');
+        }
+    });
+</script>
+
+ <script>
+        // Alpine.js store for theme management
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('theme', {
+                isDark: document.documentElement.classList.contains('dark'),
+                
+                toggle() {
+                    this.isDark = !this.isDark;
+                    document.documentElement.classList.toggle('dark');
+                    // Save to localStorage instead of API
+                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+                }
+            });
+        });
+
+        // Global theme store function
+        function themeStore() {
+            return {
+                isDark: document.documentElement.classList.contains('dark'),
+                
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    document.documentElement.classList.toggle('dark');
+                    // Save to localStorage
+                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+                }
+            }
+        }
+
+        // Initialize theme from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
+            
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
