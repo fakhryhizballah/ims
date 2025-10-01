@@ -76,44 +76,71 @@
 </script>
 
  <script>
-        // Alpine.js store for theme management
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('theme', {
-                isDark: document.documentElement.classList.contains('dark'),
-                
-                toggle() {
-                    this.isDark = !this.isDark;
-                    document.documentElement.classList.toggle('dark');
-                    // Save to localStorage instead of API
-                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-                }
-            });
-        });
+       // Alpine.js store for theme management
+document.addEventListener('alpine:init', () => {
+    Alpine.store('theme', {
+        isDark: false,
 
-        // Global theme store function
-        function themeStore() {
-            return {
-                isDark: document.documentElement.classList.contains('dark'),
-                
-                toggleDarkMode() {
-                    this.isDark = !this.isDark;
-                    document.documentElement.classList.toggle('dark');
-                    // Save to localStorage
-                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-                }
-            }
-        }
-
-        // Initialize theme from localStorage on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
+        init() {
+            // Inisialisasi isDark berdasarkan localStorage atau prefers-color-scheme
+            const savedTheme = localStorage.getItem('theme') || 'auto';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
-            
-            if (shouldBeDark) {
+
+            if (savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark)) {
+                this.isDark = true;
                 document.documentElement.classList.add('dark');
             } else {
+                this.isDark = false;
                 document.documentElement.classList.remove('dark');
             }
-        });
+        },
+
+        toggle() {
+            this.isDark = !this.isDark;
+            document.documentElement.classList.toggle('dark', this.isDark);
+            // Simpan preferensi ke localStorage
+            localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+        }
+    });
+});
+
+// Global theme store function (jika ingin digunakan secara manual)
+function themeStore() {
+    return {
+        isDark: false,
+
+        init() {
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark)) {
+                this.isDark = true;
+                document.documentElement.classList.add('dark');
+            } else {
+                this.isDark = false;
+                document.documentElement.classList.remove('dark');
+            }
+        },
+
+        toggleDarkMode() {
+            this.isDark = !this.isDark;
+            document.documentElement.classList.toggle('dark', this.isDark);
+            localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+        }
+    }
+}
+
+// Inisialisasi tema saat halaman dimuat (fallback jika Alpine belum inisialisasi)
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'auto';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
+
+    if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+});
+
     </script>
