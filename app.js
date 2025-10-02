@@ -22,9 +22,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Routes
-app.get('/', (req, res) => {
-        res.redirect('/login');
-});
+
 const client = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -37,7 +35,7 @@ client.on('connect', () => {
     console.log('Redis client connected');
 });
 client.on('error', (err) => {
-    console.log('Something went wrong ' + err);
+    console.log('RedisSomething went wrong ' + err);
 });
 
 app.use((req, res, next) => {

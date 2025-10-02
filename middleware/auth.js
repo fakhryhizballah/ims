@@ -11,6 +11,19 @@ const csrfToken = (req, res, next) => {
     });
     next();
 };
+const verifyToken = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (!token) {
+        return res.redirect('/login');
+    }
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.user = decoded
+    } catch (err) {
+        return res.redirect('/login');
+    }
+    next();
+};
 
 const verifyCsrfToken = (req, res, next) => {
     const token = req.body._csrf;
@@ -42,6 +55,7 @@ function verifyOneTimeToken(token) {
 
 module.exports = {
     csrfToken,
-    verifyCsrfToken
+    verifyCsrfToken,
+    verifyToken
 
 };

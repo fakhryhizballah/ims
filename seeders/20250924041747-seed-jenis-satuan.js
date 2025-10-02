@@ -48,6 +48,12 @@ module.exports = {
         nama_satuan: 'Liter',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        slug: 'btl',
+        nama_satuan: 'Botol',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

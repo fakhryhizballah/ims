@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const tenan = require('./tenan');
 module.exports = (sequelize, DataTypes) => {
   class Akses extends Model {
     /**
@@ -11,10 +12,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // Akses.belongsTo(models.User, { foreignKey: 'user_username' });
+      Akses.hasOne(models.Tenan, {
+        foreignKey: 'id',
+        sourceKey: 'id_tenan',
+        as: 'tenan'
+      });
     }
   }
   Akses.init({
-    id_user: DataTypes.INTEGER,
+    user_username: DataTypes.STRING,
     id_tenan: DataTypes.INTEGER
   }, {
     sequelize,

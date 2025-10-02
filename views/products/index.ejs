@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" x-data="themeStore()">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %>- Ims Apps</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <%- include('../partials/head') %>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200 overflow-x-hidden">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <%- include('../partials/sidebar', { page: page }) %>
@@ -19,9 +17,10 @@
             <%- include('../partials/header', { user: user, title: title }) %>
             
             <!-- Main Content Area -->
-            <main class="flex-1 overflow-auto bg-gray-50 p-6">
+            <main class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-4 sm:p-6 transition-colors duration-200">
 
 <div class="space-y-6">
+    <%- include('../products/tambahModal') %>
     <!-- Page Header -->
     <div class="flex justify-between items-center">
         <div>
@@ -32,7 +31,7 @@
             <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
                 <i class="fas fa-download mr-2"></i>Export
             </button>
-            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" id="openModalAddProduct">
                 <i class="fas fa-plus mr-2"></i>Add Product
             </button>
         </div>
@@ -260,6 +259,68 @@
     </div>
 
     <%- include('../partials/footer') %>
+    <!-- Script buka tutup modal -->
+
+
 </div>
+<script>
+    const openModalAddProduct = document.getElementById('openModalAddProduct');
+    const addProductModal = document.getElementById('addProductModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const inputDataForm = document.getElementById('inputDataForm');
+
+    openModalAddProduct.addEventListener('click', () => {
+        addProductModal.classList.remove('hidden');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        addProductModal.classList.add('hidden');
+    });
+
+    // Tutup modal jika klik di luar konten modal
+    addProductModal.addEventListener('click', (e) => {
+        if (e.target === addProductModal) {
+            addProductModal.classList.add('hidden');
+        }
+    });
+    let getSatuanList = async () => {
+        let satuan = await fetchData('/api/barang/satuan', 'GET');
+        satuanList = satuan.data;
+        let satuanSelect = document.getElementById('satuan_besar');
+        satuanSelect.innerHTML = '<option value="" disabled selected>Pilih satuan besar</option>';
+        satuanList.forEach(satuan => {
+            const option = document.createElement('option');
+            option.value = satuan.slug;
+            option.textContent = satuan.nama_satuan;
+            satuanSelect.appendChild(option);
+        });
+        let satuan_kecil = document.getElementById('satuan_kecil');
+        satuan_kecil.innerHTML = '<option value="" disabled selected>Pilih satuan kecil</option>';
+        satuanList.forEach(satuan => {
+            const option = document.createElement('option');
+            option.value = satuan.slug;
+            option.textContent = satuan.nama_satuan;
+            satuan_kecil.appendChild(option);
+        });
+    }
+    getSatuanList();
+   
+    // Contoh submit form (bisa disesuaikan)
+    inputDataForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Ambil data form
+        const formData = new FormData(inputDataForm);
+        const data = Object.fromEntries(formData.entries());
+
+        console.log('Data barang:', data);
+
+        // TODO: Kirim data ke server atau proses sesuai kebutuhan
+
+        // Tutup modal dan reset form
+        dataModal.classList.add('hidden');
+        inputDataForm.reset();
+    });
+</script>
 </body>
 </html>

@@ -18,9 +18,16 @@ const dashboardController = {
 
         res.render('dashboard/index', {
             title: 'Dashboard',
-            user: req.session.user,
+            user: req.user,
             page: 'dashboard',
             stats: stats
+        });
+    },
+    products: (req, res) => {
+        res.render('products/index', {
+            title: 'Products',
+            user: req.user,
+            page: 'products'
         });
     }
 };

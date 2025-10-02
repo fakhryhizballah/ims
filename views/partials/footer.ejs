@@ -76,14 +76,14 @@
 </script>
 
  <script>
-       // Alpine.js store for theme management
+      // Alpine.js store for theme management
 document.addEventListener('alpine:init', () => {
     Alpine.store('theme', {
         isDark: false,
 
         init() {
-            // Inisialisasi isDark berdasarkan localStorage atau prefers-color-scheme
-            const savedTheme = localStorage.getItem('theme') || 'auto';
+            // Ambil tema dari localStorage, default ke 'light' jika tidak ada
+            const savedTheme = localStorage.getItem('theme') || 'light';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
             if (savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark)) {
@@ -98,19 +98,18 @@ document.addEventListener('alpine:init', () => {
         toggle() {
             this.isDark = !this.isDark;
             document.documentElement.classList.toggle('dark', this.isDark);
-            // Simpan preferensi ke localStorage
             localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
         }
     });
 });
 
-// Global theme store function (jika ingin digunakan secara manual)
+// Global theme store function (optional)
 function themeStore() {
     return {
         isDark: false,
 
         init() {
-            const savedTheme = localStorage.getItem('theme') || 'auto';
+            const savedTheme = localStorage.getItem('theme') || 'light';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
             if (savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark)) {
@@ -130,9 +129,9 @@ function themeStore() {
     }
 }
 
-// Inisialisasi tema saat halaman dimuat (fallback jika Alpine belum inisialisasi)
+// Inisialisasi tema saat halaman dimuat (fallback)
 document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme') || 'auto';
+    const savedTheme = localStorage.getItem('theme') || 'light';
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
 

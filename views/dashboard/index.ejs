@@ -4,27 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %>- Ims Apps</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            bg: '#0f172a',
-                            surface: '#1e293b',
-                            card: '#334155',
-                            text: '#f1f5f9',
-                            muted: '#94a3b8'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js" defer></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <%- include('../partials/head') %>
 </head>
 <body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200 overflow-x-hidden">
     <div class="flex h-screen">
@@ -101,48 +81,48 @@
 <!-- Charts and Tables -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Recent Activity -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div class="p-6 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">Aktivitas Terkini</h3>
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-600">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Aktivitas Terkini</h3>
         </div>
         <div class="p-6">
             <div class="space-y-4">
                 <div class="flex items-center space-x-3">
-                    <div class="bg-blue-50 p-2 rounded-full">
-                        <i class="fas fa-user text-blue-600 text-sm"></i>
+                    <div class="bg-blue-50 p-2 rounded-full dark:bg-blue-900/20">
+                        <i class="fas fa-user text-blue-600 text-sm dark:text-blue-400"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-gray-900">User baru mendaftar</p>
+                        <p class="text-sm font-medium text-gray-900 dark:text-dark-text">User baru mendaftar</p>
                         <p class="text-xs text-gray-500">2 menit yang lalu</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                    <div class="bg-green-50 p-2 rounded-full">
-                        <i class="fas fa-shopping-cart text-green-600 text-sm"></i>
+                    <div class="bg-green-50 p-2 rounded-full dark:bg-green-900/20">
+                        <i class="fas fa-shopping-cart text-green-600 text-sm dark:text-green-400"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-gray-900">Order baru diterima</p>
+                        <p class="text-sm font-medium text-gray-900 dark:text-dark-text">Order baru diterima</p>
                         <p class="text-xs text-gray-500">5 menit yang lalu</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                    <div class="bg-yellow-50 p-2 rounded-full">
-                        <i class="fas fa-box text-yellow-600 text-sm"></i>
+                    <div class="bg-yellow-50 p-2 rounded-full dark:bg-yellow-900/20">
+                        <i class="fas fa-box text-yellow-600 text-sm dark:text-yellow-400"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-gray-900">Product baru ditambahkan</p>
+                        <p class="text-sm font-medium text-gray-900 dark:text-dark-text">Product baru ditambahkan</p>
                         <p class="text-xs text-gray-500">10 menit yang lalu</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                    <div class="bg-red-50 p-2 rounded-full">
-                        <i class="fas fa-exclamation-triangle text-red-600 text-sm"></i>
+                    <div class="bg-red-50 p-2 rounded-full dark:bg-red-900/20">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-sm dark:text-red-400"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-gray-900">Stock produk menipis</p>
+                        <p class="text-sm font-medium text-gray-900 dark:text-dark-text">Stock produk menipis</p>
                         <p class="text-xs text-gray-500">15 menit yang lalu</p>
                     </div>
                 </div>
@@ -151,30 +131,30 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div class="p-6 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">Tindakan Cepat</h3>
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-600">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Tindakan Cepat</h3>
         </div>
         <div class="p-6">
             <div class="grid grid-cols-2 gap-4">
-                <a href="/users" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                    <i class="fas fa-truck-arrow-right text-blue-600 text-2xl mb-2"></i>
-                    <span class="text-sm font-medium text-blue-900">Barang Masuk</span>
+                <a href="/users" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors dark:bg-blue-900/20">
+                    <i class="fas fa-truck-arrow-right text-blue-600 text-2xl mb-2 dark:text-blue-400"></i>
+                    <span class="text-sm font-medium text-blue-900 dark:text-blue-400">Barang Masuk</span>
                 </a>
                 
-                <a href="/products" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                    <i class="fas fa-plus text-green-600 text-2xl mb-2"></i>
-                    <span class="text-sm font-medium text-green-900">Tambahkan Produk</span>
+                <a href="/products" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:bg-green-900/20">
+                    <i class="fas fa-plus text-green-600 text-2xl mb-2 dark:text-green-400"></i>
+                    <span class="text-sm font-medium text-green-900 dark:text-green-400">Tambahkan Produk</span>
                 </a>
                 
-                <a href="/reports" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors">
-                    <i class="fas fa-chart-line text-yellow-600 text-2xl mb-2"></i>
-                    <span class="text-sm font-medium text-yellow-900">Barang Keluar</span>
+                <a href="/reports" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors dark:bg-yellow-900/20">
+                    <i class="fas fa-chart-line text-yellow-600 text-2xl mb-2 dark:text-yellow-400"></i>
+                    <span class="text-sm font-medium text-yellow-900 dark:text-yellow-400">Barang Keluar</span>
                 </a>
                 
-                <button class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                    <i class="fas fa-cog text-purple-600 text-2xl mb-2"></i>
-                    <span class="text-sm font-medium text-purple-900">Mutasi Barang</span>
+                <button class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors dark:bg-purple-900/20">
+                    <i class="fas fa-cog text-purple-600 text-2xl mb-2 dark:text-purple-400"></i>
+                    <span class="text-sm font-medium text-purple-900 dark:text-purple-400">Mutasi Barang</span>
                 </button>
             </div>
             </main>
@@ -182,48 +162,5 @@
     </div>
 
     <%- include('../partials/footer') %>
-
-    <script>
-        // Alpine.js store for theme management
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('theme', {
-                isDark: document.documentElement.classList.contains('dark'),
-                
-                toggle() {
-                    this.isDark = !this.isDark;
-                    document.documentElement.classList.toggle('dark');
-                    // Save to localStorage instead of API
-                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-                }
-            });
-        });
-
-        // Global theme store function
-        function themeStore() {
-            return {
-                isDark: document.documentElement.classList.contains('dark'),
-                
-                toggleDarkMode() {
-                    this.isDark = !this.isDark;
-                    document.documentElement.classList.toggle('dark');
-                    // Save to localStorage
-                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-                }
-            }
-        }
-
-        // Initialize theme from localStorage on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const shouldBeDark = savedTheme === 'dark' || (savedTheme === 'auto' && prefersDark);
-            
-            if (shouldBeDark) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        });
-    </script>
 </body>
 </html>
