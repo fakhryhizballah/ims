@@ -23,6 +23,8 @@ router.get('/', verifyToken, (req, res) => {
 router.post('/api/forgot/send-otp', authController.sendOTP);
 router.get('/api/tenan', verifyToken, api.getTenan);
 router.get('/api/barang/satuan', api.getSatuan);
+router.get('/api/barang/jenis', verifyToken, api.getJenisBarang);
+router.post('/api/barang', verifyToken, api.addBarang);
 // API health check
 router.get('/health', (req, res) => {
     res.json({

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   JenisBarang.init({
-    id_tenan: DataTypes.INTEGER,
+    tenan_id: DataTypes.INTEGER,
     kode_jenis: DataTypes.STRING,
     jenis_barang: DataTypes.STRING,
     status: DataTypes.ENUM('1', '0'),

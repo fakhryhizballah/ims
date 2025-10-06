@@ -9,8 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_tenan: {
+      tenan_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: {
             tableName: 'Tenans'
@@ -18,7 +19,7 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'RESTRICT'
       },
       kode_jenis: {
         type: Sequelize.STRING,
@@ -26,7 +27,8 @@ module.exports = {
         unique: true
       },
       jenis_barang: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       status: {
         type: Sequelize.ENUM('1', '0'),
@@ -41,6 +43,10 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    // await queryInterface.addIndex('JenisBarangs', ['tenan_id', 'jenis_barang'], {
+    //   unique: true,
+    //   name: 'jenis_barang_unique'
+    // });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('JenisBarangs');

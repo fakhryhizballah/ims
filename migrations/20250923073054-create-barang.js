@@ -79,6 +79,10 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    // await queryInterface.addIndex('Barangs', ['tenan_id', 'nama_barang'], {
+    //   unique: true,
+    //   name: 'barang_unique'
+    // });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Barangs');

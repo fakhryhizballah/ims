@@ -32,6 +32,24 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        slug: 'set',
+        nama_satuan: 'Set',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        slug: 'roll',
+        nama_satuan: 'Roll',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        slug: 'bundel',
+        nama_satuan: 'Bundel',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         slug: 'bks',
         nama_satuan: 'Bungkus',
         createdAt: new Date(),

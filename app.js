@@ -44,6 +44,8 @@ app.use((req, res, next) => {
 });
 
 // Mount routes
+app.use("/assets", express.static(path.join(__dirname + '/public/'), {
+}));
 app.use('/', routes);
 
 // 404 Error handler
@@ -64,7 +66,6 @@ app.use((err, req, res, next) => {
             : err.message
     });
 });
-
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`📝 Login credentials: username: admin, password: admin`);

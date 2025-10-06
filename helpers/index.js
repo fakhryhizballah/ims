@@ -23,11 +23,26 @@ async function sendWa(data) {
         }
     }
 }
+function trimText(text) {
+    let trimmed = text.trim()
+        .replace(/[^\w\s]/g, '')
+        .replace(/\s+/g, ' ')
+        .toLowerCase();
+    return trimmed;
+}
+function slugText(text) {
+    let trimmed = text.trim()
+        .replace(/[^a-zA-Z]/g, '')  // hanya biarkan huruf
+        .toLowerCase();
+    return trimmed;
+}
 // sendWa({
 //     "message": "Sayyangg",
 //     "telp": "0895321701798"
 // });
 
 module.exports = {
-    sendWa
+    sendWa,
+    trimText,
+    slugText
 }

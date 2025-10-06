@@ -3,6 +3,9 @@
         const response = await fetch(url, {
                 method: method,
                 body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 });
                 const data = await response.json();
                 return data;
@@ -15,7 +18,8 @@
             localStorage.setItem('selectedTenan', (dataTenan.data[0].nama));
             localStorage.setItem('selectedTenanId', (dataTenan.data[0].id));
         }
-        console.log(localStorage.getItem('selectedTenan'));
+        // console.log(localStorage.getItem('selectedTenan'));
+        document.cookie = `selectedTenanId=${localStorage.getItem('selectedTenanId')}; path=/; max-age=31536000; sameSite=strict`;
        let tenantRole = document.getElementsByName('tenantRole')
         for(let i=0; i<tenantRole.length; i++) {
             tenantRole[i].innerHTML = localStorage.getItem('selectedTenan');
@@ -45,6 +49,7 @@
                 button.addEventListener('click', () => {
                     localStorage.setItem('selectedTenan', tenan.nama);
                     localStorage.setItem('selectedTenanId', tenan.id);
+                    document.cookie = `selectedTenanId=${tenan.id}; path=/; max-age=31536000; sameSite=strict`;
                     let tenantRole = document.getElementsByName('tenantRole')
                     for(let i=0; i<tenantRole.length; i++) {
                         tenantRole[i].innerHTML = tenan.nama;

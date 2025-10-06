@@ -20,7 +20,6 @@
             <main class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-4 sm:p-6 transition-colors duration-200">
 
 <div class="space-y-6">
-    <%- include('../products/tambahModal') %>
     <!-- Page Header -->
     <div class="flex justify-between items-center">
         <div>
@@ -46,7 +45,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm text-gray-600">Total Products</p>
-                    <h3 class="text-xl font-bold text-gray-900">567</h3>
+                    <h3 class="text-xl font-bold text-gray-900"><span x-text="products.length"></span></h3>
                 </div>
             </div>
         </div>
@@ -258,69 +257,16 @@
         </div>
     </div>
 
-    <%- include('../partials/footer') %>
-    <!-- Script buka tutup modal -->
 
 
 </div>
-<script>
-    const openModalAddProduct = document.getElementById('openModalAddProduct');
-    const addProductModal = document.getElementById('addProductModal');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const inputDataForm = document.getElementById('inputDataForm');
 
-    openModalAddProduct.addEventListener('click', () => {
-        addProductModal.classList.remove('hidden');
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        addProductModal.classList.add('hidden');
-    });
-
-    // Tutup modal jika klik di luar konten modal
-    addProductModal.addEventListener('click', (e) => {
-        if (e.target === addProductModal) {
-            addProductModal.classList.add('hidden');
-        }
-    });
-    let getSatuanList = async () => {
-        let satuan = await fetchData('/api/barang/satuan', 'GET');
-        satuanList = satuan.data;
-        let satuanSelect = document.getElementById('satuan_besar');
-        satuanSelect.innerHTML = '<option value="" disabled selected>Pilih satuan besar</option>';
-        satuanList.forEach(satuan => {
-            const option = document.createElement('option');
-            option.value = satuan.slug;
-            option.textContent = satuan.nama_satuan;
-            satuanSelect.appendChild(option);
-        });
-        let satuan_kecil = document.getElementById('satuan_kecil');
-        satuan_kecil.innerHTML = '<option value="" disabled selected>Pilih satuan kecil</option>';
-        satuanList.forEach(satuan => {
-            const option = document.createElement('option');
-            option.value = satuan.slug;
-            option.textContent = satuan.nama_satuan;
-            satuan_kecil.appendChild(option);
-        });
-    }
-    getSatuanList();
-   
-    // Contoh submit form (bisa disesuaikan)
-    inputDataForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // Ambil data form
-        const formData = new FormData(inputDataForm);
-        const data = Object.fromEntries(formData.entries());
-
-        console.log('Data barang:', data);
-
-        // TODO: Kirim data ke server atau proses sesuai kebutuhan
-
-        // Tutup modal dan reset form
-        dataModal.classList.add('hidden');
-        inputDataForm.reset();
-    });
-</script>
+    <%- include('../partials/footer') %>
+    <!-- Script buka tutup modal -->
+       <%- include('../products/tambahModal') %>
+     <script src="/assets/js/tambahModal.js"></script>
+     <script> 
+       
+     </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %>- Ims Apps</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./assets/css/index.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -42,6 +42,7 @@
                     required 
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Masukkan no Whatsapp"
+                    autocomplete="username"
                 >
             </div>
 
@@ -55,6 +56,7 @@
                         required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-10"
                         placeholder="Masukkan password"
+                        autocomplete
                     >
                     <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <i id="password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
@@ -83,7 +85,10 @@
 </html>
 
 <script>
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem('tenan');
+    localStorage.removeItem('selectedTenan');
+    localStorage.removeItem('selectedTenanId');
 function togglePassword() {
     const passwordInput = document.getElementById('password');
     const passwordIcon = document.getElementById('password-icon');
@@ -96,4 +101,30 @@ function togglePassword() {
         passwordIcon.className = 'fas fa-eye text-gray-400 hover:text-gray-600';
     }
 }
+let remember = document.getElementById('remember');
+let inputNowa = document.getElementById('username');
+remember.addEventListener('click', function() {
+    if (remember.checked) {
+        localStorage.setItem('remember', true);
+        localStorage.setItem('nowa', inputNowa.value);
+    } else {
+             localStorage.setItem('remember', false);
+        // localStorage.removeItem('nowa');
+    }
+});
+if(localStorage.getItem('remember') === 'true') {
+    remember.checked = true;
+    inputNowa.value = localStorage.getItem('nowa') || '';
+} else {
+    remember.checked = false;
+    inputNowa.value = '';
+}
+inputNowa.addEventListener('input', function() {
+    console.log(remember.checked);
+    if(remember.checked) {
+        localStorage.setItem('nowa', inputNowa.value);
+    }
+});
+
+
 </script>
