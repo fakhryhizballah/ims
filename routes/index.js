@@ -14,6 +14,7 @@ router.post('/login', authController.processLogin);
 router.get('/logout', authController.processLogout);
 router.get('/dashboard', verifyToken, dashboardController.index);
 router.get('/products', verifyToken, dashboardController.products);
+router.get('/gudang', verifyToken, dashboardController.gudangs);
 router.get('/', verifyToken, (req, res) => {
     res.redirect('/dashboard');
 })
@@ -23,8 +24,10 @@ router.get('/', verifyToken, (req, res) => {
 router.post('/api/forgot/send-otp', authController.sendOTP);
 router.get('/api/tenan', verifyToken, api.getTenan);
 router.get('/api/barang/satuan', api.getSatuan);
-router.get('/api/barang/jenis', verifyToken, api.getJenisBarang);
+router.get('/api/barang/ccategory', verifyToken, api.getJenisBarang);
 router.post('/api/barang', verifyToken, api.addBarang);
+router.get('/api/barang', verifyToken, api.getBarang);
+router.get('/api/barang/cari', verifyToken, api.cariBarang);
 // API health check
 router.get('/health', (req, res) => {
     res.json({

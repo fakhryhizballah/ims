@@ -23,239 +23,80 @@
     <!-- Page Header -->
     <div class="flex justify-between items-center">
         <div>
-            <h2 class="text-2xl font-bold text-gray-900">Products Management</h2>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-dark-text">Products Management</h2>
             <p class="text-gray-600">Kelola semua produk</p>
         </div>
         <div class="flex space-x-3">
-            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" id="exportBtn">
                 <i class="fas fa-download mr-2"></i>Export
             </button>
-            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" id="openModalAddProduct">
+            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors dark:hover:bg-indigo-800 dark:bg-indigo-500" id="openModalAddProduct">
                 <i class="fas fa-plus mr-2"></i>Add Product
             </button>
         </div>
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
             <div class="flex items-center">
-                <div class="bg-blue-50 p-3 rounded-lg">
-                    <i class="fas fa-box text-blue-600 text-xl"></i>
+                <div class="bg-blue-50 p-3 rounded-lg dark:bg-gray-800">
+                    <i class="fas fa-box text-blue-600 text-xl dark:text-blue-400"></i>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm text-gray-600">Total Products</p>
-                    <h3 class="text-xl font-bold text-gray-900"><span x-text="products.length"></span></h3>
+                    <p class="text-sm text-gray-600 dark:text-dark-muted">Total Products</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-dark-text"><span id="totalProducts"></span></h3>
                 </div>
             </div>
         </div>
         
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
             <div class="flex items-center">
-                <div class="bg-green-50 p-3 rounded-lg">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                <div class="bg-green-50 p-3 rounded-lg dark:bg-gray-800">
+                    <i class="fas fa-solid fa-layer-group text-green-600 text-xl dark:text-green-400"></i>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm text-gray-600">Active</p>
-                    <h3 class="text-xl font-bold text-gray-900">456</h3>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div class="flex items-center">
-                <div class="bg-yellow-50 p-3 rounded-lg">
-                    <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm text-gray-600">Low Stock</p>
-                    <h3 class="text-xl font-bold text-gray-900">23</h3>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div class="flex items-center">
-                <div class="bg-red-50 p-3 rounded-lg">
-                    <i class="fas fa-times-circle text-red-600 text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm text-gray-600">Out of Stock</p>
-                    <h3 class="text-xl font-bold text-gray-900">12</h3>
+                    <p class="text-sm text-gray-600 dark:text-dark-muted">Total Kategori</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-dark-text"><span id="totalJenis"></span></h3>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                <input type="text" placeholder="Search products..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-dark-muted">Search</label>
+                <input id="pencarian" type="text" placeholder="Search products..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option>All Categories</option>
-                    <option>Electronics</option>
-                    <option>Fashion</option>
-                    <option>Home & Garden</option>
+                <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-dark-muted">Category</label>
+                <select id="categoryFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">All Categories</option>
                 </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
-                    <option>Out of Stock</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
-                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option>All Prices</option>
-                    <option>$0 - $50</option>
-                    <option>$50 - $100</option>
-                    <option>$100+</option>
-                </select>
-            </div>
-            <div class="flex items-end">
-                <button class="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                    <i class="fas fa-search mr-2"></i>Filter
-                </button>
             </div>
         </div>
     </div>
-
-    <!-- Products Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Product Card 1 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                <i class="fas fa-image text-gray-400 text-3xl"></i>
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Smartphone XYZ</h3>
-                <p class="text-gray-600 text-sm mb-3">Latest smartphone with advanced features</p>
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-2xl font-bold text-indigo-600">$299</span>
-                    <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">In Stock</span>
-                </div>
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span>Stock: 45</span>
-                    <span>SKU: SM001</span>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="flex-1 bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </button>
-                    <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- Table Container with Responsive Scroll -->
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+            <table class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nama Barang</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Jenis Barang</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Satuan Besar</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Isi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Satuan Kecil</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Harga</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="productsTable">
+                </tbody>
+            </table>
         </div>
 
-        <!-- Product Card 2 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                <i class="fas fa-image text-gray-400 text-3xl"></i>
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Laptop ABC</h3>
-                <p class="text-gray-600 text-sm mb-3">High-performance laptop for professionals</p>
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-2xl font-bold text-indigo-600">$899</span>
-                    <span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">Low Stock</span>
-                </div>
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span>Stock: 5</span>
-                    <span>SKU: LT002</span>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="flex-1 bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </button>
-                    <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Card 3 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                <i class="fas fa-image text-gray-400 text-3xl"></i>
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Headphones DEF</h3>
-                <p class="text-gray-600 text-sm mb-3">Wireless noise-canceling headphones</p>
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-2xl font-bold text-indigo-600">$199</span>
-                    <span class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Out of Stock</span>
-                </div>
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span>Stock: 0</span>
-                    <span>SKU: HP003</span>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="flex-1 bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </button>
-                    <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Card 4 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                <i class="fas fa-image text-gray-400 text-3xl"></i>
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Watch GHI</h3>
-                <p class="text-gray-600 text-sm mb-3">Smart watch with fitness tracking</p>
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-2xl font-bold text-indigo-600">$159</span>
-                    <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">In Stock</span>
-                </div>
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span>Stock: 28</span>
-                    <span>SKU: SW004</span>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="flex-1 bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </button>
-                    <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-500">
-                Showing 1 to 12 of 567 results
-            </div>
-            <div class="flex space-x-2">
-                <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">Previous</button>
-                <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">1</button>
-                <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">2</button>
-                <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">3</button>
-                <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">Next</button>
-            </div>
-        </div>
-        </div>
-    </div>
 
 
 
@@ -264,9 +105,7 @@
     <%- include('../partials/footer') %>
     <!-- Script buka tutup modal -->
        <%- include('../products/tambahModal') %>
+       <script src="/assets/js/products.js"></script>
      <script src="/assets/js/tambahModal.js"></script>
-     <script> 
-       
-     </script>
 </body>
 </html>

@@ -32,7 +32,8 @@ function trimText(text) {
 }
 function slugText(text) {
     let trimmed = text.trim()
-        .replace(/[^a-zA-Z]/g, '')  // hanya biarkan huruf
+        .replace(/[^\w\s]/g, '')
+        .replace(/\s+/g, '')     // ubah spasi ganda jadi satu
         .toLowerCase();
     return trimmed;
 }

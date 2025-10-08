@@ -41,7 +41,10 @@ const usersController = {
     getJenisBarang: async (req, res) => {
         try {
             const satuan = await JenisBarang.findAll({
-                // attributes: ['slug', 'nama_satuan']
+                where: {
+                    tenan_id: req.cookies.selectedTenanId
+                },
+                attributes: ['kode_jenis', 'jenis_barang']
             });
             return res.status(200).json({ message: 'Success', data: satuan });
         } catch (error) {
@@ -65,7 +68,7 @@ const usersController = {
                 }
             }, { transaction: t });
             if (isexistBarang) {
-                await t.rollback();
+                await t.rollback(); x
                 return res.status(400).json({ message: 'Barang sudah ada' });
             }
             let isexistJenisBarang = await JenisBarang.findOne({
@@ -99,6 +102,67 @@ const usersController = {
         } catch (error) {
             console.log(error);
             await t.rollback();
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    getBarang: async (req, res) => {
+        try {
+            let params = req.query;
+            console.log(params);
+            const barang = await Barang.findAll({
+                where: [params,
+                    { tenan_id: req.cookies.selectedTenanId },
+                    { status: 1 }
+                ],
+                include: {
+                    model: JenisBarang,
+                    as: 'jenisbarang',
+                    attributes: ['jenis_barang']
+                },
+                attributes: { exclude: ['id', 'tenan_id', 'createdAt', 'updatedAt'] },
+                limit: 100,
+            });
+            let data_jenis = [...new Set(barang.map(item => item.jenis_barang))];
+            return res.status(200).json({
+                message: 'Success',
+                total: {
+                    barang: barang.length,
+                    jenis: data_jenis.length
+                },
+                data: barang
+            });
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    cariBarang: async (req, res) => {
+        try {
+            let params = req.query;
+            console.log(params);
+            const barang = await Barang.findAll({
+                where:
+                {
+                    nama_barang: { [Op.like]: `${params.nama_barang}%` },
+                    jenis_barang: { [Op.like]: `${params.jenis_barang}%` },
+                    tenan_id: req.cookies.selectedTenanId,
+                    status: 1
+                },
+                include: {
+                    model: JenisBarang,
+                    as: 'jenisbarang',
+                    attributes: ['jenis_barang']
+                },
+                attributes: { exclude: ['id', 'tenan_id', 'createdAt', 'updatedAt'] },
+                limit: 100
+            });
+            if (barang.length <= 0) {
+                return res.status(400).json({
+                    message: 'Barang tidak ditemukan',
+                    data: barang
+                });
+            }
+            return res.status(200).json({ message: 'Success', data: barang });
+        } catch (error) {
             return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     },

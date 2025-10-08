@@ -29,6 +29,13 @@ const dashboardController = {
             user: req.user,
             page: 'products'
         });
+    },
+    gudangs: (req, res) => {
+        res.render('gudang/index', {
+            title: 'Gudang',
+            user: req.user,
+            page: 'gudang'
+        });
     }
 };
 

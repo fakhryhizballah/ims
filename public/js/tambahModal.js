@@ -56,7 +56,7 @@ let getSatuanList = async () => {
 getSatuanList();
 
 let jenisBarang = async () => {
-    let jenis = await fetchData('/api/barang/jenis', 'GET');
+    let jenis = await fetchData('/api/barang/ccategory', 'GET');
     jenisList = jenis.data;
     let jenisSelect = document.getElementById('jenis_barang');
     const datalist = document.createElement('datalist');
@@ -96,5 +96,6 @@ inputDataForm.addEventListener('submit', async (e) => {
         timer: 1500,
     }).then(() => {
         inputDataForm.reset();
+        index();
     });
 });

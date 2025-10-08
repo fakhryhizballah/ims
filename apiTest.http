@@ -3,11 +3,31 @@ content-type: application/json
 Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsIiwiZnVsbG5hbWUiOiJGYWtocnkgSGl6IiwiZW1haWwiOiJmYUBhbC5jb20iLCJub3dhIjoiMDg5NTMyMTcwMTc5OCIsImlhdCI6MTc1OTY1NzgwMywiZXhwIjoxNzYwMjYyNjAzfQ.Hk_0-fKn66xx65vHlWFKxjbNcvKc41FIKwqC5sau5Bk; selectedTenanId=1
 
 {
-    "nama_barang": "AC",
-    "jenis_barang": "Lainnya",
-    "satuan_besar": "box",
-    "kapasitas": 100,
+    "nama_barang": "Beras 5Kg",
+    "jenis_barang": "beras",
+    "satuan_besar": "bundel",
+    "kapasitas": 5,
     "satuan_kecil": "pcs",
     "harga": 1000
 }
+
 ###
+GET http://localhost:3000/api/barang/ccategory HTTP/1.1
+content-type: application/json
+Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsIiwiZnVsbG5hbWUiOiJGYWtocnkgSGl6IiwiZW1haWwiOiJmYUBhbC5jb20iLCJub3dhIjoiMDg5NTMyMTcwMTc5OCIsImlhdCI6MTc1OTY1NzgwMywiZXhwIjoxNzYwMjYyNjAzfQ.Hk_0-fKn66xx65vHlWFKxjbNcvKc41FIKwqC5sau5Bk; selectedTenanId=1
+
+
+###
+GET http://localhost:3000/api/barang?jenis_barang=1-beras HTTP/1.1
+content-type: application/json
+Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsIiwiZnVsbG5hbWUiOiJGYWtocnkgSGl6IiwiZW1haWwiOiJmYUBhbC5jb20iLCJub3dhIjoiMDg5NTMyMTcwMTc5OCIsImlhdCI6MTc1OTY1NzgwMywiZXhwIjoxNzYwMjYyNjAzfQ.Hk_0-fKn66xx65vHlWFKxjbNcvKc41FIKwqC5sau5Bk; selectedTenanId=1
+
+###
+GET http://localhost:3000/api/barang HTTP/1.1
+content-type: application/json
+Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsIiwiZnVsbG5hbWUiOiJGYWtocnkgSGl6IiwiZW1haWwiOiJmYUBhbC5jb20iLCJub3dhIjoiMDg5NTMyMTcwMTc5OCIsImlhdCI6MTc1OTY1NzgwMywiZXhwIjoxNzYwMjYyNjAzfQ.Hk_0-fKn66xx65vHlWFKxjbNcvKc41FIKwqC5sau5Bk; selectedTenanId=1
+
+###
+GET http://localhost:3000/api/barang/cari?nama_barang=ber&jenis_barang= HTTP/1.1
+content-type: application/json
+Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsIiwiZnVsbG5hbWUiOiJGYWtocnkgSGl6IiwiZW1haWwiOiJmYUBhbC5jb20iLCJub3dhIjoiMDg5NTMyMTcwMTc5OCIsImlhdCI6MTc1OTY1NzgwMywiZXhwIjoxNzYwMjYyNjAzfQ.Hk_0-fKn66xx65vHlWFKxjbNcvKc41FIKwqC5sau5Bk; selectedTenanId=1
