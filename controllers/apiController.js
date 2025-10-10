@@ -1,6 +1,8 @@
-const { Tenan, Akses, Depo, Barang, JenisBarang, JenisSatuan, sequelize } = require('../models');
+const { Tenan, Akses, Depo, Barang, JenisBarang, JenisSatuan, Supplier, sequelize } = require('../models');
 const { Op, where } = require('sequelize');
 const { trimText, slugText } = require('../helpers');
+const { DELETE } = require('sequelize/lib/query-types');
+const depo = require('../models/depo');
 
 const usersController = {
     // Show users list
@@ -166,16 +168,134 @@ const usersController = {
             return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     },
-
-    addDepo: async (req, res) => {
+    getSupplier: async (req, res) => {
         try {
-            const tenan = await Tenan.create(req.body);
-            return res.status(200).json({ message: 'Success', data: tenan });
+            const vendor = await Supplier.findAll({
+                where: {
+                    tenan_id: req.cookies.selectedTenanId,
+                    status: 1
+                },
+                attributes: { exclude: ['status', 'tenan_id', 'createdAt', 'updatedAt'] }
+            });
+            if (vendor.length <= 0) {
+                return res.status(400).json({
+                    message: 'Supplier tidak ditemukan',
+                    data: vendor
+                });
+            }
+            return res.status(200).json({ message: 'Success', data: vendor });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.status(500).json({ message: 'Internal Server Error', data: error });
         }
-    }
+    },
+    addSupplier: async (req, res) => {
+        let t = await sequelize.transaction();
+        try {
+            if (!req.body.supplier) {
+                t.rollback();
+                return res.status(400).json({ message: 'Supplier harus diisi', status: 400 });
+            }
+            let slug = slugText(req.body.supplier);
+            let tenan_id = req.cookies.selectedTenanId;
+            console.log(tenan_id);
+            const vendor = await Supplier.create({
+                tenan_id: tenan_id,
+                kode_supplier: tenan_id + '-' + slug,
+                ...req.body
+            }, { transaction: t });
+            console.log(vendor);
+            t.commit();
+            return res.status(200).json({ message: 'Success', status: 200 });
+        } catch (error) {
+            t.rollback();
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(400).json({ message: `Supplier ${req.body.supplier} sudah ada`, status: 400 });
+            }
+            console.error(error);
+            return res.status(500).json({ message: 'Internal Server Error', status: 500, data: error });
+        }
+    },
+    updateSupplier: async (req, res) => {
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            let slug = slugText(req.body.supplier);
+            const vendor = await Supplier.update({
+                kode_supplier: tenan_id + '-' + slug,
+                ...req.body
+            },
+                {
+                    where: {
+                        id: req.body.id,
+                        tenan_id: tenan_id
+
+                    }
+                });
+            return res.status(200).json({ message: 'Success', data: vendor });
+        } catch (error) {
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(400).json({ message: `Supplier ${req.body.supplier} sudah ada terjadi duplikasi` });
+            }
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    deleteSupplier: async (req, res) => {
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            const vendor = await Supplier.update(
+                {
+                    status: '0'
+                },
+                {
+                    where: {
+                        id: req.body.id,
+                        tenan_id: tenan_id
+                    }
+                });
+            return res.status(200).json({ message: 'Success', data: vendor });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    getGudang: async (req, res) => {
+        try {
+            const gudang = await Depo.findAll({
+                where: {
+                    tenan_id: req.cookies.selectedTenanId,
+                    status: 1
+                },
+                attributes: { exclude: ['status', 'tenan_id', 'createdAt', 'updatedAt'] }
+            });
+            if (gudang.length <= 0) {
+                return res.status(400).json({
+                    message: 'Gudang tidak ditemukan',
+                    data: gudang
+                });
+            }
+            return res.status(200).json({ message: 'Success', data: gudang });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    addGudang: async (req, res) => {
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            const tenan = await Depo.create({
+                tenan_id: tenan_id,
+                depo: req.body.depo
+            });
+            return res.status(200).json({ message: 'Success', status: 200, data: tenan });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', status: 500, data: error });
+        }
+    },
+
+
 };
 
 module.exports = usersController;

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   RiwayatStok.init({
     kode_barang: DataTypes.STRING,
-    tenan: DataTypes.INTEGER,
+    tenan_id: DataTypes.INTEGER,
     stok_awal: DataTypes.DOUBLE,
     masuk: DataTypes.DOUBLE,
     keluar: DataTypes.DOUBLE,

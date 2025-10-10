@@ -28,6 +28,16 @@ router.get('/api/barang/ccategory', verifyToken, api.getJenisBarang);
 router.post('/api/barang', verifyToken, api.addBarang);
 router.get('/api/barang', verifyToken, api.getBarang);
 router.get('/api/barang/cari', verifyToken, api.cariBarang);
+
+router.get('/api/supplier', verifyToken, api.getSupplier);
+router.post('/api/supplier', verifyToken, api.addSupplier);
+router.put('/api/supplier', verifyToken, api.updateSupplier);
+router.delete('/api/supplier', verifyToken, api.deleteSupplier);
+
+router.get('/api/gudang', verifyToken, api.getGudang);
+router.post('/api/gudang', verifyToken, api.addGudang);
+// router.put('/api/gudang', verifyToken, api.updateGudang);
+// router.delete('/api/gudang', verifyToken, api.deleteGudang);
 // API health check
 router.get('/health', (req, res) => {
     res.json({

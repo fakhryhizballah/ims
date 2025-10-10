@@ -21,7 +21,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-      tenan: {
+      tenan_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -85,3 +85,4 @@ module.exports = {
     await queryInterface.dropTable('RiwayatStoks');
   }
 };
+

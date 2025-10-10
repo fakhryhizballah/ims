@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Depo.init({
     depo: DataTypes.STRING,
+    kode_depo: DataTypes.STRING,
     tenan_id: DataTypes.INTEGER,
     status: DataTypes.ENUM('1', '0')
   }, {

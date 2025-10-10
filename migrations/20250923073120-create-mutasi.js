@@ -2,12 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Akses', {
+    await queryInterface.createTable('Mutasis', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      riawariwayat_stok_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'RiwayatStoks'
+          },
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       user_username: {
         type: Sequelize.STRING,
@@ -20,6 +32,15 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
+      tanggal: {
+        type: Sequelize.DATEONLY,
+      },
+      metode: {
+        type: Sequelize.STRING
+      },
+      catatan: {
+        type: Sequelize.STRING
+      },
       tenan_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -30,7 +51,11 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'RESTRICT'
+      },
+      status: {
+        type: Sequelize.ENUM('1', '0'),
+        defaultValue: '1'
       },
       createdAt: {
         allowNull: false,
@@ -41,13 +66,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    // Menambahkan index unik untuk pasangan id_user dan id_tenan
-    await queryInterface.addIndex('Akses', ['user_username', 'id_tenan'], {
-      unique: true,
-      name: 'user_tenan_access_unique'
-    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Akses');
+    await queryInterface.dropTable('Mutasis');
   }
 };

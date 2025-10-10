@@ -2,9 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const tenan = require('./tenan');
 module.exports = (sequelize, DataTypes) => {
-  class Akses extends Model {
+  class Supplier extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,20 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Akses.belongsTo(models.User, { foreignKey: 'user_username' });
-      Akses.hasOne(models.Tenan, {
-        foreignKey: 'id',
-        sourceKey: 'tenan_id',
-        as: 'tenan'
-      });
     }
   }
-  Akses.init({
-    user_username: DataTypes.STRING,
-    tenan_id: DataTypes.INTEGER
+  Supplier.init({
+    kode_supplier: DataTypes.STRING,
+    supplier: DataTypes.STRING,
+    tenan_id: DataTypes.INTEGER,
+    alamat: DataTypes.STRING,
+    nowa: DataTypes.STRING,
+    status: DataTypes.ENUM('1', '0')
   }, {
     sequelize,
-    modelName: 'Akses',
+    modelName: 'Supplier',
   });
-  return Akses;
+  return Supplier;
 };

@@ -15,14 +15,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   Penerimaan.init({
     kode_barang: DataTypes.STRING,
-    tanggal: DataTypes.DATE,
+    tanggal: DataTypes.DATEONLY,
     user: DataTypes.STRING,
     satuan_besar: DataTypes.DOUBLE,
     satuan_kecil: DataTypes.DOUBLE,
     harga: DataTypes.INTEGER,
     total_harga: DataTypes.INTEGER,
     user_username: DataTypes.STRING,
-    depo_id: DataTypes.INTEGER
+    depo_id: DataTypes.INTEGER,
+    supplier_id: DataTypes.STRING,
+    riwayat_stok_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Penerimaan',
