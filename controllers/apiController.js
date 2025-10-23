@@ -1,4 +1,4 @@
-const { Tenan, Akses, Depo, Barang, JenisBarang, JenisSatuan, Supplier, sequelize } = require('../models');
+const { Tenan, Akses, Depo, Stok, Barang, JenisBarang, JenisSatuan, Supplier, sequelize } = require('../models');
 const { Op, where } = require('sequelize');
 const { trimText, slugText } = require('../helpers');
 const { DELETE } = require('sequelize/lib/query-types');
@@ -249,11 +249,14 @@ const usersController = {
                 },
                 {
                     where: {
-                        id: req.body.id,
+                        kode_supplier: req.body.kode_supplier,
                         tenan_id: tenan_id
                     }
                 });
-            return res.status(200).json({ message: 'Success', data: vendor });
+            return res.status(200).json({
+                status: 200,
+                message: 'Success', data: vendor
+            });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server Error', data: error });
@@ -283,17 +286,134 @@ const usersController = {
     addGudang: async (req, res) => {
         try {
             let tenan_id = req.cookies.selectedTenanId;
+            let kode_depo = tenan_id + '-' + slugText(req.body.depo);
             const tenan = await Depo.create({
                 tenan_id: tenan_id,
+                kode_depo: kode_depo,
                 depo: req.body.depo
             });
             return res.status(200).json({ message: 'Success', status: 200, data: tenan });
 
         } catch (error) {
             console.error(error);
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(400).json({ message: `Depo "${req.body.depo}" sudah ada`, status: 400 });
+            }
             res.status(500).json({ message: 'Internal Server Error', status: 500, data: error });
         }
     },
+    getGudangByKodeDepo: async (req, res) => {
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            let findDepo = await Depo.findOne({
+                where: {
+                    kode_depo: req.params.kode_depo,
+                    tenan_id: tenan_id,
+                    status: 1
+                },
+                attributes: ['id']
+            })
+            console.log(findDepo);
+            if (!findDepo) {
+                return res.status(400).json({ message: 'Gudang tidak ditemukan' });
+            }
+            const dataStok = await Stok.findOne({
+                where: {
+                    depo_id: findDepo.id
+                },
+                include: [
+                    {
+                        model: Barang,
+                        as: 'barang',
+                    }
+                ]
+            });
+            if (!dataStok) {
+                return res.status(400).json({ status: 400, message: 'Stok kosong' });
+            }
+            return res.status(200).json({ status: 200, message: 'Success', data: dataStok });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    getStokByDepo: async (req, res) => {
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            let params = req.query;
+            console.log(params);
+            let findDepo = await Depo.findOne({
+                where: {
+                    kode_depo: req.params.kode_depo,
+                    tenan_id: tenan_id,
+                    status: 1
+                },
+                attributes: ['id']
+            })
+            if (!findDepo) {
+                return res.status(400).json({ message: 'Gudang tidak ditemukan' });
+            }
+            const barang = await Barang.findOne({
+                where:
+                {
+                    nama_barang: { [Op.like]: `${params.nama_barang}%` },
+                    tenan_id: tenan_id,
+                    status: 1
+                },
+                include: {
+                    model: JenisBarang,
+                    as: 'jenisbarang',
+                    attributes: ['jenis_barang'],
+                },
+                attributes: { exclude: ['id', 'status', 'tenan_id', 'createdAt', 'updatedAt'] },
+                limit: 1
+            });
+            if (!barang) {
+                return res.status(400).json({
+                    status: 400,
+                    message: 'Barang tidak ditemukan',
+                    data: barang
+                });
+            }
+            let stok = await Stok.findOne({
+                where: {
+                    depo_id: findDepo.id,
+                    kode_barang: barang.kode_barang
+                }
+            })
+            if (!stok) {
+                console.log(barang);
+                barang.dataValues.stok = 0;
+                barang.dataValues.stokGrups = 0;
+            } else {
+                barang.dataValues.stok = stok.stok;
+                barang.dataValues.stokGrups = stok.stok / barang.isi;
+            }
+            return res.status(200).json({ status: 200, message: 'Success', data: barang });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    stokOpname: async (req, res) => {
+        try {
+            const stok = await Stok.findOne({
+                where: {
+                    depo_id: req.params.kode_depo,
+                    kode_barang: req.body.kode_barang
+                }
+            });
+            if (!stok) {
+                return res.status(400).json({ status: 400, message: 'Stok tidak ditemukan' });
+            }
+            stok.stok = req.body.stok;
+            stok.save();
+            return res.status(200).json({ status: 200, message: 'Success', data: stok });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    }
 
 
 };

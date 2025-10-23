@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Stok.hasOne(models.Barang, {
+        as: 'barang',
+        foreignKey: 'kode_barang',
+        sourceKey: 'kode_barang'
+      });
     }
   }
   Stok.init({

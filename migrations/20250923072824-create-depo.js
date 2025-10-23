@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
         primaryKey: true,
         unique: true
-      }
+      },
       tenan_id: {
         type: Sequelize.INTEGER,
         references: {

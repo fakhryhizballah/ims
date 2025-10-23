@@ -36,6 +36,13 @@ const dashboardController = {
             user: req.user,
             page: 'gudang'
         });
+    },
+    opnames: (req, res) => {
+        res.render('gudang/opname', {
+            title: 'Stock Opname',
+            user: req.user,
+            page: 'opname'
+        });
     }
 };
 

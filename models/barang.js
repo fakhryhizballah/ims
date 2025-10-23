@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'kode_jenis',
         sourceKey: 'jenis_barang'
       });
+      Barang.hasOne(models.Stok, {
+        as: 'stok',
+        foreignKey: 'kode_barang',
+        sourceKey: 'kode_barang'
+      });
     }
   }
   Barang.init({

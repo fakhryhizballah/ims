@@ -15,6 +15,7 @@ router.get('/logout', authController.processLogout);
 router.get('/dashboard', verifyToken, dashboardController.index);
 router.get('/products', verifyToken, dashboardController.products);
 router.get('/gudang', verifyToken, dashboardController.gudangs);
+router.get('/gudang/opname', verifyToken, dashboardController.opnames);
 router.get('/', verifyToken, (req, res) => {
     res.redirect('/dashboard');
 })
@@ -36,6 +37,9 @@ router.delete('/api/supplier', verifyToken, api.deleteSupplier);
 
 router.get('/api/gudang', verifyToken, api.getGudang);
 router.post('/api/gudang', verifyToken, api.addGudang);
+router.get('/api/gudang/stokall/:kode_depo', verifyToken, api.getGudangByKodeDepo);
+router.get('/api/gudang/stok/:kode_depo', verifyToken, api.getStokByDepo);
+router.post('/api/gudang/stokOpname/:kode_depo', verifyToken, api.stokOpname);
 // router.put('/api/gudang', verifyToken, api.updateGudang);
 // router.delete('/api/gudang', verifyToken, api.deleteGudang);
 // API health check
