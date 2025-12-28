@@ -23,23 +23,23 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 
-const client = createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_URL,
-        port: process.env.REDIS_URL_PORT
-    }
-});
-client.connect();
-client.on('connect', () => {
-    console.log('Redis client connected');
-});
-client.on('error', (err) => {
-    console.log('RedisSomething went wrong ' + err);
-});
+// const client = createClient({
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//         host: process.env.REDIS_URL,
+//         port: process.env.REDIS_URL_PORT
+//     }
+// });
+// client.connect();
+// client.on('connect', () => {
+//     console.log('Redis client connected');
+// });
+// client.on('error', (err) => {
+//     console.log('RedisSomething went wrong ' + err);
+// });
 
 app.use((req, res, next) => {
-    req.cache = client;
+    // req.cache = client;
     next();
 });
 
@@ -68,5 +68,4 @@ app.use((err, req, res, next) => {
 });
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📝 Login credentials: username: admin, password: admin`);
 });
