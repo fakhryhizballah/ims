@@ -11,7 +11,7 @@ async function index() {
     totalProducts.innerText = main.total.barang;
     let totalJenis = document.getElementById('totalJenis');
     totalJenis.innerText = main.total.jenis;
-    let kategoryList = await fetchData('/api/barang/ccategory', 'GET');
+    let kategoryList = await fetchData('/api/barang/category', 'GET');
     console.log(kategoryList);
     let kategory = document.getElementById('categoryFilter');
     kategory.innerHTML = '<option value="">All Categories</option>';
@@ -23,11 +23,11 @@ async function index() {
         kategory.appendChild(option);
     });
     tabelProduct(main.data);
- 
+
 }
 index();
 
- function tabelProduct(data) {
+function tabelProduct(data) {
     let productsTable = document.getElementById('productsTable');
     productsTable.innerHTML = '';
     data.forEach(x => {

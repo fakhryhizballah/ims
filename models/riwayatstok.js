@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      RiwayatStok.hasOne(models.Barang, {
+        as: 'barang',
+        foreignKey: 'kode_barang',
+        sourceKey: 'kode_barang'
+      })
+
     }
   }
   RiwayatStok.init({
@@ -20,9 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     masuk: DataTypes.DOUBLE,
     keluar: DataTypes.DOUBLE,
     status: DataTypes.STRING,
-    tanggal: DataTypes.DATE,
-    user: DataTypes.STRING,
-    depo: DataTypes.INTEGER
+    tanggal: DataTypes.DATEONLY,
+    user_username: DataTypes.STRING,
+    depo_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'RiwayatStok',

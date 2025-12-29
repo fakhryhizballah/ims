@@ -1,4 +1,4 @@
-const { Tenan, Akses, Depo, Stok, Barang, JenisBarang, JenisSatuan, Supplier, sequelize } = require('../models');
+const { Tenan, Akses, Depo, Stok, Barang, JenisBarang, JenisSatuan, Supplier, RiwayatStok, Penerimaan, sequelize } = require('../models');
 const { Op, where } = require('sequelize');
 const { trimText, slugText } = require('../helpers');
 const { DELETE } = require('sequelize/lib/query-types');
@@ -31,7 +31,7 @@ const usersController = {
     getSatuan: async (req, res) => {
         try {
             const satuan = await JenisSatuan.findAll({
-                attributes: [ 'slug', 'nama_satuan']
+                attributes: ['slug', 'nama_satuan']
             });
             return res.status(200).json({ message: 'Success', data: satuan });
         } catch (error) {
@@ -302,9 +302,10 @@ const usersController = {
             res.status(500).json({ message: 'Internal Server Error', status: 500, data: error });
         }
     },
-    getGudangByKodeDepo: async (req, res) => {
+    getAllBarangWithStok: async (req, res) => {
         try {
             let tenan_id = req.cookies.selectedTenanId;
+            // find depo id from kode_depo param
             let findDepo = await Depo.findOne({
                 where: {
                     kode_depo: req.params.kode_depo,
@@ -312,26 +313,47 @@ const usersController = {
                     status: 1
                 },
                 attributes: ['id']
-            })
-            console.log(findDepo);
+            });
             if (!findDepo) {
                 return res.status(400).json({ message: 'Gudang tidak ditemukan' });
             }
-            const dataStok = await Stok.findOne({
+
+            const barangs = await Barang.findAll({
                 where: {
-                    depo_id: findDepo.id
+                    tenan_id: tenan_id,
+                    status: 1
                 },
                 include: [
                     {
-                        model: Barang,
-                        as: 'barang',
+                        model: JenisBarang,
+                        as: 'jenisbarang',
+                        attributes: ['jenis_barang']
+                    },
+                    {
+                        model: Stok,
+                        as: 'stok',
+                        where: { depo_id: findDepo.id },
+                        required: false,
+                        attributes: ['stok', 'depo_id']
                     }
-                ]
+                ],
+                attributes: { exclude: ['id', 'tenan_id', 'createdAt', 'updatedAt'] },
+                order: [['nama_barang', 'ASC']]
             });
-            if (!dataStok) {
-                return res.status(400).json({ status: 400, message: 'Stok kosong' });
-            }
-            return res.status(200).json({ status: 200, message: 'Success', data: dataStok });
+
+            const data = barangs.map(b => {
+                let item = b.toJSON();
+                if (!item.stok) {
+                    item.stok = 0;
+                    item.stokGrups = 0;
+                } else {
+                    item.stok = item.stok.stok;
+                    item.stokGrups = (item.isi && item.isi !== 0) ? (item.stok / item.isi) : 0;
+                }
+                return item;
+            });
+
+            return res.status(200).json({ message: 'Success', total: data.length, data: data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server Error', data: error });
@@ -396,22 +418,239 @@ const usersController = {
         }
     },
     stokOpname: async (req, res) => {
+        let t = await sequelize.transaction();
         try {
-            const stok = await Stok.findOne({
-                where: {
-                    depo_id: req.params.kode_depo,
-                    kode_barang: req.body.kode_barang
-                }
+            const tenan_id = req.cookies.selectedTenanId;
+            const kode_depo = req.params.kode_depo;
+            const { kode_barang, stokRealKecil, stokRealBesar, status } = req.body;
+
+            const findDepo = await Depo.findOne({
+                where: { kode_depo: kode_depo, tenan_id: tenan_id, status: 1 },
+                attributes: ['id']
             });
-            if (!stok) {
-                return res.status(400).json({ status: 400, message: 'Stok tidak ditemukan' });
+            if (!findDepo) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Gudang tidak ditemukan' });
             }
-            stok.stok = req.body.stok;
-            stok.save();
+
+            const barang = await Barang.findOne({ where: { kode_barang: kode_barang, tenan_id: tenan_id } });
+            if (!barang) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Barang tidak ditemukan' });
+            }
+
+            const newStokValue = Number(stokRealKecil) || 0;
+
+            let stok = await Stok.findOne({ where: { depo_id: findDepo.id, kode_barang: kode_barang } });
+            let stokAwal
+            if (stok) {
+                stokAwal = stok.stok;
+                stok.stok = newStokValue;
+                await stok.save({ transaction: t });
+            } else {
+                stokAwal = 0;
+                stok = await Stok.create({ kode_barang: kode_barang, depo_id: findDepo.id, stok: newStokValue }, { transaction: t });
+            }
+
+
+            const masuk = newStokValue > stokAwal ? newStokValue - stokAwal : 0;
+            const keluar = newStokValue < stokAwal ? stokAwal - newStokValue : 0;
+
+            await RiwayatStok.create({
+                kode_barang: kode_barang,
+                tenan_id: tenan_id,
+                stok_awal: stokAwal,
+                masuk: masuk,
+                keluar: keluar,
+                status: status || 'opname',
+                tanggal: new Date(),
+                user_username: req.user.username,
+                depo_id: findDepo.id
+            }, { transaction: t });
+
+            await t.commit();
             return res.status(200).json({ status: 200, message: 'Success', data: stok });
         } catch (error) {
             console.error(error);
+            await t.rollback();
             res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    addPenerimaan: async (req, res) => {
+        let t = await sequelize.transaction();
+        try {
+            const tenan_id = req.cookies.selectedTenanId;
+            const { kode_barang, satuan_besar, satuan_kecil, harga, total_harga, supplier_id, depo_id, tanggal, penerima } = req.body;
+
+            const barang = await Barang.findOne({ where: { kode_barang: kode_barang, tenan_id: tenan_id } });
+            if (!barang) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Barang tidak ditemukan' });
+            }
+
+            const depo = await Depo.findOne({ where: { id: depo_id, tenan_id: tenan_id, status: 1 } });
+            if (!depo) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Gudang tidak ditemukan' });
+            }
+            let stok = await Stok.findOne(
+                { where: { depo_id: depo.id, kode_barang: kode_barang } },
+                { transaction: t }
+            );
+            let oldStok = 0;
+            if (stok) {
+                oldStok = parseInt(stok.stok);
+                stok.stok = oldStok + parseInt(satuan_kecil);
+                await stok.save({ transaction: t });
+            } else {
+                stok = await Stok.create(
+                    { kode_barang: kode_barang, depo_id: depo.id, stok: satuan_kecil || 0 },
+                    { transaction: t }
+                );
+            }
+
+            let riwayatStok = await RiwayatStok.create({
+                kode_barang: kode_barang,
+                tenan_id: tenan_id,
+                stok_awal: oldStok,
+                masuk: satuan_kecil || 0,
+                keluar: 0,
+                status: 'penerimaan',
+                tanggal: tanggal || new Date(),
+                user_username: req.user ? req.user.username : null,
+                depo_id: depo.id
+            }, { transaction: t });
+
+            const penerimaan = await Penerimaan.create({
+                kode_barang: kode_barang,
+                tanggal: tanggal || new Date(),
+                user: penerima,
+                satuan_besar: satuan_besar || 0,
+                satuan_kecil: satuan_kecil || 0,
+                harga: harga,
+                total_harga: total_harga,
+                user_username: req.user.username,
+                depo_id: depo.id,
+                supplier_id: supplier_id,
+                riwayat_stok_id: riwayatStok.id
+            }, { transaction: t });
+
+            await t.commit();
+            return res.status(200).json({ message: 'Success', status: 200, data: penerimaan });
+        } catch (error) {
+            console.error(error);
+            await t.rollback();
+            res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    getDataPenerima: async (req, res) => {
+        try {
+            const tenan_id = req.cookies.selectedTenanId;
+            const { kode_barang, depo_id, start, end } = req.query;
+
+            const whereConditions = {
+            };
+
+            if (kode_barang) {
+                whereConditions.kode_barang = kode_barang;
+            }
+
+            if (depo_id) {
+                whereConditions.depo_id = depo_id;
+            }
+
+            if (start && end) {
+                whereConditions.tanggal = {
+                    [Op.between]: [new Date(start), new Date(end)]
+                };
+            }
+
+            const penerimaanData = await Penerimaan.findAll({
+                where: whereConditions,
+                include: [
+                    {
+                        model: Barang,
+                        as: 'barang',
+                        attributes: ['nama_barang', 'satuan_kecil', 'satuan_besar'],
+                        include: {
+                            model: JenisBarang,
+                            as: 'jenisbarang',
+                            attributes: ['jenis_barang']
+                        }
+                    },
+                    {
+                        model: Supplier,
+                        as: 'supplier',
+                        attributes: ['supplier']
+                    },
+                    {
+                        model: Depo,
+                        as: 'depo',
+                        attributes: ['depo']
+                    }
+                ],
+                // attributes: { exclude: ['createdAt', 'updatedAt'] },
+                order: [['tanggal', 'DESC']]
+            });
+
+            if (!penerimaanData || penerimaanData.length === 0) {
+                return res.status(404).json({ message: 'Data penerimaan tidak ditemukan' });
+            }
+
+            return res.status(200).json({ message: 'Success', data: penerimaanData });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    getRiwayatStok: async (req, res) => {
+        try {
+            const tenan_id = req.cookies.selectedTenanId;
+            const { kode_barang, depo_id, start, end } = req.query;
+
+            const whereConditions = {
+            };
+
+            if (kode_barang) {
+                whereConditions.kode_barang = kode_barang;
+            }
+
+            if (depo_id) {
+                whereConditions.depo_id = depo_id;
+            }
+
+            if (start && end) {
+                whereConditions.tanggal = {
+                    [Op.between]: [new Date(start), new Date(end)]
+                };
+            }
+
+            const riwayatStokData = await RiwayatStok.findAll({
+                where: whereConditions,
+                include: [
+                    {
+                        model: Barang,
+                        as: 'barang',
+                        attributes: ['nama_barang', 'satuan_kecil', 'satuan_besar'],
+                        include: {
+                            model: JenisBarang,
+                            as: 'jenisbarang',
+                            attributes: ['jenis_barang']
+                        }
+                    }
+                ],
+                // attributes: { exclude: ['createdAt', 'updatedAt'] },
+                order: [['tanggal', 'DESC']]
+            });
+
+            if (!riwayatStokData || riwayatStokData.length === 0) {
+                return res.status(404).json({ message: 'Data riwayat stok tidak ditemukan' });
+            }
+
+            return res.status(200).json({ message: 'Success', data: riwayatStokData });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     }
 

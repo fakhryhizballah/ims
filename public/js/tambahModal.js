@@ -27,7 +27,7 @@ inputHarga.addEventListener('input', function (e) {
     // Format ke Rupiah
     if (value) {
         this.value = new Intl.NumberFormat('id-ID').format(value);
-        hidden.value = value; 
+        hidden.value = value;
     } else {
         this.value = '';
         hidden.value = '';
@@ -56,7 +56,7 @@ let getSatuanList = async () => {
 getSatuanList();
 
 let jenisBarang = async () => {
-    let jenis = await fetchData('/api/barang/ccategory', 'GET');
+    let jenis = await fetchData('/api/barang/category', 'GET');
     jenisList = jenis.data;
     let jenisSelect = document.getElementById('jenis_barang');
     const datalist = document.createElement('datalist');

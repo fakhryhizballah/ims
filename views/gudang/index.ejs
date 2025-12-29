@@ -1,156 +1,196 @@
 <!DOCTYPE html>
 <html lang="id" x-data="themeStore()">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %>- Ims Apps</title>
+    <title>
+        <%= title %>- Ims Apps
+    </title>
     <%- include('../partials/head') %>
 </head>
+
 <body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200 overflow-x-hidden">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <%- include('../partials/sidebar', { page: page }) %>
-        
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-w-0">
-            <!-- Header -->
-            <%- include('../partials/header', { user: user, title: title }) %>
-            
-            <!-- Main Content Area -->
-            <main class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-4 sm:p-6 transition-colors duration-200">
-              
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                
 
-                    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-dark-muted">Total Products</p>
-                                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">567</h3>
-                            </div>
-                            <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-                                <i class="fas fa-box text-green-600 dark:text-green-400 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <span class="text-sm text-green-600 dark:text-green-400">
-                                <i class="fas fa-arrow-up mr-1"></i>8%
-                            </span>
-                            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
-                        </div>
-                    </div>
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col min-w-0">
+                <!-- Header -->
+                <%- include('../partials/header', { user: user, title: title }) %>
 
-                    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-dark-muted">Total Purchase</p>
-                                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">$45,678</h3>
-                            </div>
-                            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
-                                <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <span class="text-sm text-red-600 dark:text-red-400">
-                                <i class="fas fa-arrow-down mr-1"></i>3%
-                            </span>
-                            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
-                        </div>
-                    </div>
+                    <!-- Main Content Area -->
+                    <main
+                        class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-4 sm:p-6 transition-colors duration-200">
 
-                    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-dark-muted">Total Stock</p>
-                                <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">890</h3>
-                            </div>
-                            <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-                                <i class="fas fa-shopping-cart text-purple-600 dark:text-purple-400 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <span class="text-sm text-green-600 dark:text-green-400">
-                                <i class="fas fa-arrow-up mr-1"></i>15%
-                            </span>
-                            <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
-                        </div>
-                    </div>
-                </div>
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
 
-                <!-- Charts and Tables -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Recent Activity -->
-                    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
-                        <div class="p-6 border-b border-gray-200 dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Data Master</h3>
-                        </div>
-                        <div class="p-6">
-                            <div class="grid grid-cols-2 gap-4">
-                                <button onclick="menuModal('addSuppliersModal')" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors dark:bg-blue-900/20">
-                                    <i class="fas fa-solid fa-truck-field text-blue-600 text-2xl mb-2 dark:text-blue-400"></i>
-                                    <span class="text-sm font-medium text-blue-900 dark:text-blue-400">Tambah Supplier</span>
-                                </button>
-                                
-                                <button onclick="menuModal('addDepoModal')" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:bg-green-900/20">
-                                    <i class="fas fa-boxes-stacked text-green-600 text-2xl mb-2 dark:text-green-400"></i>
-                                    <span class="text-sm font-medium text-green-900 dark:text-green-400">Tambah Depo</span>
-                                </button>
-                                
-                                <a href="/gudang/opname" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors dark:bg-yellow-900/20">
-                                    <i class="fas fa-chart-line text-yellow-600 text-2xl mb-2 dark:text-yellow-400"></i>
-                                    <span class="text-sm font-medium text-yellow-900 dark:text-yellow-400">Stok Depo</span>
-                                </a>
-                                
-                                <button onclick="kelolaSupplier()" class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors dark:bg-purple-900/20">
-                                    <i class="fas fa-people-roof text-purple-600 text-2xl mb-2 dark:text-purple-400"></i>
-                                    <span class="text-sm font-medium text-purple-900 dark:text-purple-400">Kelola Supplier</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Inventaris -->
-                    <div class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
-                        <div class="p-6 border-b border-gray-200 dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Menu Inventaris</h3>
-                        </div>
-                        <div class="p-6">
-                            <div class="grid grid-cols-2 gap-4">
-                                <a href="/users" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors dark:bg-blue-900/20">
-                                    <i class="fas fa-arrow-trend-up text-blue-600 text-2xl mb-2 dark:text-blue-400"></i>
-                                    <span class="text-sm font-medium text-blue-900 dark:text-blue-400">Barang Masuk</span>
-                                </a>
-                                
-                                <a href="/products" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:bg-green-900/20">
-                                    <i class="fas fa-arrow-trend-down text-green-600 text-2xl mb-2 dark:text-green-400"></i>
-                                    <span class="text-sm font-medium text-green-900 dark:text-green-400">Barang Keluar</span>
-                                </a>
-                                
-                                <a href="/reports" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors dark:bg-yellow-900/20">
-                                    <i class="fas fa-cog text-purple-600 text-2xl mb-2 dark:text-purple-400"></i>
-                                    <span class="text-sm font-medium text-yellow-900 dark:text-yellow-400">Mutasi Barang</span>
-                                </a>
-                                
-                                <button class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors dark:bg-purple-900/20">
-                                    <i class="fas fa-clock-rotate-left text-yellow-600 text-2xl mb-2 dark:text-yellow-400"></i>
-                                    <span class="text-sm font-medium text-purple-900 dark:text-purple-400">Riwayat Barang</span>
-                                </button>
+                            <div
+                                class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-dark-muted">Total Products</p>
+                                        <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">567</h3>
+                                    </div>
+                                    <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                                        <i class="fas fa-box text-green-600 dark:text-green-400 text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <span class="text-sm text-green-600 dark:text-green-400">
+                                        <i class="fas fa-arrow-up mr-1"></i>8%
+                                    </span>
+                                    <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
+                                </div>
                             </div>
-                        
+
+                            <div
+                                class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-dark-muted">Total Purchase</p>
+                                        <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">$45,678</h3>
+                                    </div>
+                                    <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
+                                        <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <span class="text-sm text-red-600 dark:text-red-400">
+                                        <i class="fas fa-arrow-down mr-1"></i>3%
+                                    </span>
+                                    <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-dark-muted">Total Stock</p>
+                                        <h3 class="text-2xl font-bold text-gray-900 dark:text-dark-text">890</h3>
+                                    </div>
+                                    <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                                        <i
+                                            class="fas fa-shopping-cart text-purple-600 dark:text-purple-400 text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <span class="text-sm text-green-600 dark:text-green-400">
+                                        <i class="fas fa-arrow-up mr-1"></i>15%
+                                    </span>
+                                    <span class="text-sm text-gray-500 dark:text-dark-muted">dari bulan lalu</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+
+                        <!-- Charts and Tables -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Recent Activity -->
+                            <div
+                                class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                                <div class="p-6 border-b border-gray-200 dark:border-gray-600">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Data Master</h3>
+                                </div>
+                                <div class="p-6">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <button onclick="menuModal('addSuppliersModal')"
+                                            class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors dark:bg-blue-900/20">
+                                            <i
+                                                class="fas fa-solid fa-truck-field text-blue-600 text-2xl mb-2 dark:text-blue-400"></i>
+                                            <span class="text-sm font-medium text-blue-900 dark:text-blue-400">Tambah
+                                                Supplier</span>
+                                        </button>
+
+                                        <button onclick="menuModal('addDepoModal')"
+                                            class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:bg-green-900/20">
+                                            <i
+                                                class="fas fa-boxes-stacked text-green-600 text-2xl mb-2 dark:text-green-400"></i>
+                                            <span class="text-sm font-medium text-green-900 dark:text-green-400">Tambah
+                                                Depo</span>
+                                        </button>
+
+                                        <a href="/gudang/opname"
+                                            class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors dark:bg-yellow-900/20">
+                                            <i
+                                                class="fas fa-chart-line text-yellow-600 text-2xl mb-2 dark:text-yellow-400"></i>
+                                            <span class="text-sm font-medium text-yellow-900 dark:text-yellow-400">Stok
+                                                Depo</span>
+                                        </a>
+
+                                        <button onclick="kelolaSupplier()"
+                                            class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors dark:bg-purple-900/20">
+                                            <i
+                                                class="fas fa-people-roof text-purple-600 text-2xl mb-2 dark:text-purple-400"></i>
+                                            <span
+                                                class="text-sm font-medium text-purple-900 dark:text-purple-400">Kelola
+                                                Supplier</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inventaris -->
+                            <div
+                                class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                                <div class="p-6 border-b border-gray-200 dark:border-gray-600">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-dark-text">Menu Inventaris
+                                    </h3>
+                                </div>
+                                <div class="p-6">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <a href="/gudang/barangmasuk"
+                                            class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors dark:bg-blue-900/20">
+                                            <i
+                                                class="fas fa-arrow-trend-up text-blue-600 text-2xl mb-2 dark:text-blue-400"></i>
+                                            <span class="text-sm font-medium text-blue-900 dark:text-blue-400">Barang
+                                                Masuk</span>
+                                        </a>
+
+                                        <a href="/gudang/barangkeluar"
+                                            class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:bg-green-900/20">
+                                            <i
+                                                class="fas fa-arrow-trend-down text-green-600 text-2xl mb-2 dark:text-green-400"></i>
+                                            <span class="text-sm font-medium text-green-900 dark:text-green-400">Barang
+                                                Keluar</span>
+                                        </a>
+
+                                        <a href="/gudang/barangmutasi"
+                                            class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors dark:bg-yellow-900/20">
+                                            <i
+                                                class="fas fa-cog text-purple-600 text-2xl mb-2 dark:text-purple-400"></i>
+                                            <span
+                                                class="text-sm font-medium text-yellow-900 dark:text-yellow-400">Mutasi
+                                                Barang</span>
+                                        </a>
+
+                                        <a href="/gudang/riwayatstok"
+                                            class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors dark:bg-purple-900/20">
+                                            <i
+                                                class="fas fa-clock-rotate-left text-yellow-600 text-2xl mb-2 dark:text-yellow-400"></i>
+                                            <span
+                                                class="text-sm font-medium text-purple-900 dark:text-purple-400">Riwayat
+                                                Stok</span>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+            </div>
     </div>
 
     <%- include('../partials/footer') %>
-    <%- include('addModal') %>
-    <script src="/assets/js/gudang/modalTabah.js"></script>
-    <script src="/assets/js/gudang/kelolaSupplier.js"></script>
-    <script>
-        
-    </script>
+        <%- include('addModal') %>
+            <script src="/assets/js/gudang/modalTambah.js"></script>
+            <script src="/assets/js/gudang/kelolaSupplier.js"></script>
+            <script>
+
+            </script>
 </body>
+
 </html>

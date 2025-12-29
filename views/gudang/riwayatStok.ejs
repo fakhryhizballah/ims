@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id" x-data="themeStore()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>- Ims Apps
+    </title>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+
+<body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200 overflow-x-hidden">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <%- include('../partials/sidebar', { page: page }) %>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col min-w-0">
+                <!-- Header -->
+                <%- include('../partials/header', { user: user, title: title }) %>
+
+                    <!-- Main Content Area -->
+                    <main
+                        class="flex-1 overflow-auto bg-gray-50 dark:bg-dark-bg p-4 sm:p-6 transition-colors duration-200">
+
+                        <!-- Stats Cards -->
+
+
+                        <!-- Charts and Tables -->
+                        <!-- Filters -->
+                        <div
+                            class="bg-white dark:bg-dark-surface rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6 transition-colors duration-200">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="pencarian"
+                                        class="block text-sm font-medium text-gray-700 mb-2 dark:text-dark-muted">Search</label>
+                                    <input id="pencarian" type="text" placeholder="Search products..."
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="depoFilter"
+                                        class="block text-sm font-medium text-gray-700 mb-2 dark:text-dark-muted">Depo</label>
+                                    <select id="depoFilter"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="">Pilih Depo</option>
+                                    </select>
+                                </div>
+                                <div class="relative">
+                                    <label for="tanggalFilter" class="block text-sm font-medium text-gray-700 mb-2 dark:text-dark-muted">Tanggal</label>
+                                    <input disabled type="text" id="tanggalFilter" name="tanggalFilter" class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white cursor-not-allowed opacity-50">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Table Container with Responsive Scroll -->
+                        <div class="overflow-x-auto shadow-lg rounded-lg">
+                            <table class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" id="lsitPenerimaan">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Nama Barang</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Jenis Barang</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Satuan Besar</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Satuan Kecil</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Stok Awal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Masuk</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Keluar</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Tanggal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            User</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="dataPenerimaan">
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </main>
+            </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+        <%- include('addModal') %>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="/assets/js/gudang/riwayatStok.js"></script>
+</body>
+
+</html>

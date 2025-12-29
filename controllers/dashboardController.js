@@ -43,6 +43,27 @@ const dashboardController = {
             user: req.user,
             page: 'opname'
         });
+    },
+    barangMasuk: (req, res) => {
+        res.render('gudang/barangMasuk', {
+            title: 'Barang Masuk',
+            user: req.user,
+            page: 'Barang Masuk'
+        });
+    },
+    barangKeluar: (req, res) => {
+        res.render('gudang/barangKeluar', {
+            title: 'Barang Keluar',
+            user: req.user,
+            page: 'Barang Keluar'
+        });
+    },
+    riwayatStok: (req, res) => {
+        res.render('gudang/riwayatStok', {
+            title: 'Riwayat Stok',
+            user: req.user,
+            page: 'Riwayat Stok'
+        });
     }
 };
 
