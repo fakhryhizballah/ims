@@ -9,12 +9,15 @@ async function fetchDepo() {
     });
 }
 depoFilter.addEventListener('change', () => {
-    document.getElementById('openModalStockOpname').disabled = false;
     const idDepo = depoFilter.value;
     if (idDepo) {
-         getProduct(idDepo);
+        getProduct(idDepo);
+        document.getElementById('openModalStockOpname').disabled = false;
+        document.getElementById('openModalStockOpname').classList.remove('cursor-not-allowed', 'opacity-50');
+
     }else{
         document.getElementById('openModalStockOpname').disabled = true;
+        document.getElementById('openModalStockOpname').classList.add('cursor-not-allowed', 'opacity-50')
         productsTable.innerHTML = '';
     }
 
