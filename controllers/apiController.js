@@ -108,6 +108,62 @@ const usersController = {
             return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     },
+    editBarang: async (req, res) => {
+        let t = await sequelize.transaction();
+        try {
+            let tenan_id = req.cookies.selectedTenanId;
+            let jenis_barang = trimText(req.body.jenis_barang);
+            let nama_barang = trimText(req.body.nama_barang);
+            let slugJenis = tenan_id + '-' + slugText(jenis_barang);
+            let slugBarang = tenan_id + '-' + slugText(nama_barang);
+
+            // Find the existing barang
+            let barang = await Barang.findOne({
+                where: {
+                    kode_barang: req.body.kode_barang,
+                    tenan_id: tenan_id
+                }
+            }, { transaction: t });
+
+            if (!barang) {
+                await t.rollback();
+                return res.status(404).json({ message: 'Barang tidak ditemukan' });
+            }
+
+            // Check if jenis_barang exists, if not create it
+            let isexistJenisBarang = await JenisBarang.findOne({
+                where: {
+                    kode_jenis: slugJenis,
+                }
+            }, { transaction: t });
+
+            if (!isexistJenisBarang) {
+                await JenisBarang.create({
+                    tenan_id: tenan_id,
+                    kode_jenis: slugJenis,
+                    jenis_barang: jenis_barang,
+                }, { transaction: t });
+            }
+
+            // Update barang details
+            await barang.update({
+                nama_barang: nama_barang,
+                jenis_barang: slugJenis,
+                satuan_besar: req.body.satuan_besar,
+                isi: req.body.kapasitas,
+                satuan_kecil: req.body.satuan_kecil,
+                harga: req.body.harga
+            }, { transaction: t });
+
+            await t.commit();
+            return res.status(200).json({ message: 'Barang berhasil diperbarui', data: barang });
+
+        } catch (error) {
+            console.error(error);
+            await t.rollback();
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
     getBarang: async (req, res) => {
         try {
             let params = req.query;

@@ -30,6 +30,7 @@ router.get('/api/tenan', verifyToken, api.getTenan);
 router.get('/api/barang/satuan', api.getSatuan);
 router.get('/api/barang/category', verifyToken, api.getJenisBarang);
 router.post('/api/barang', verifyToken, api.addBarang);
+router.post('/api/barang/edit', verifyToken, api.editBarang);
 router.get('/api/barang', verifyToken, api.getBarang);
 router.get('/api/barang/cari', verifyToken, api.cariBarang);
 

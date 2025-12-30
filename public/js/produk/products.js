@@ -16,7 +16,6 @@ async function index() {
     let kategory = document.getElementById('categoryFilter');
     kategory.innerHTML = '<option value="">All Categories</option>';
     kategoryList.data.forEach(x => {
-        console.log(x);
         const option = document.createElement('option');
         option.value = x.kode_jenis;
         option.textContent = x.jenis_barang;
@@ -41,7 +40,7 @@ function tabelProduct(data) {
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${x.satuan_kecil}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600 dark:text-indigo-400">Rp. ${x.harga.toLocaleString('id-ID')}</td>
             <td class="px-6 py-4 whitespace-nowrap text-2xl font-bold text-gray-900 dark:text-white">
-                <button class="bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors dark:hover:bg-indigo-800">
+                <button onClick="openModalEditProduct('${x.kode_barang}')" class="bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors dark:hover:bg-indigo-800">
                     <i class="fas fa-edit mr-1"></i>Edit
                 </button>
                 <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors dark:hover:bg-red-800">
