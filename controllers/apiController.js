@@ -3,6 +3,7 @@ const { Op, where } = require('sequelize');
 const { trimText, slugText } = require('../helpers');
 const { DELETE } = require('sequelize/lib/query-types');
 const depo = require('../models/depo');
+const { barangKeluar } = require('./dashboardController');
 
 const usersController = {
     // Show users list
@@ -650,6 +651,59 @@ const usersController = {
             return res.status(200).json({ message: 'Success', data: riwayatStokData });
         } catch (error) {
             console.error(error);
+            return res.status(500).json({ message: 'Internal Server Error', data: error });
+        }
+    },
+    barangKeluar: async (req, res) => {
+        let t = await sequelize.transaction();
+        try {
+            const tenan_id = req.cookies.selectedTenanId;
+            const kode_depo = req.params.kode_depo;
+            const { kode_barang, stokKeluar, tanggal, status } = req.body;
+
+            // Validate barang
+            const barang = await Barang.findOne({ where: { kode_barang: kode_barang, tenan_id: tenan_id } });
+            if (!barang) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Barang tidak ditemukan' });
+            }
+
+            // Validate depo
+            const depo = await Depo.findOne({ where: { kode_depo: kode_depo, tenan_id: tenan_id, status: 1 } });
+            if (!depo) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Gudang tidak ditemukan' });
+            }
+
+            // Update stok
+            let stok = await Stok.findOne({ where: { depo_id: depo.id, kode_barang: kode_barang } });
+            if (!stok || stok.stok < stokKeluar) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Stok tidak mencukupi' });
+            }
+
+            const stokAwal = stok.stok;
+            stok.stok -= stokKeluar;
+            await stok.save({ transaction: t });
+
+            // Create riwayat stok
+            await RiwayatStok.create({
+                kode_barang: kode_barang,
+                tenan_id: tenan_id,
+                stok_awal: stokAwal,
+                masuk: 0,
+                keluar: stokKeluar,
+                status: status,
+                tanggal: tanggal || new Date(),
+                user_username: req.user.username,
+                depo_id: depo.id
+            }, { transaction: t });
+
+            await t.commit();
+            return res.status(200).json({ message: 'Barang keluar berhasil dicatat', status: 200 });
+        } catch (error) {
+            console.error(error);
+            await t.rollback();
             return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     }

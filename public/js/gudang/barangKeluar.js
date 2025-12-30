@@ -15,7 +15,7 @@ depoFilter.addEventListener('change', () => {
         document.getElementById('openModalStockOpname').disabled = false;
         document.getElementById('openModalStockOpname').classList.remove('cursor-not-allowed', 'opacity-50');
 
-    }else{
+    } else {
         document.getElementById('openModalStockOpname').disabled = true;
         document.getElementById('openModalStockOpname').classList.add('cursor-not-allowed', 'opacity-50')
         productsTable.innerHTML = '';
@@ -73,7 +73,7 @@ function renderProductsTable(barangList) {
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.satuan_kecil || ''}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.harga || ''}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.stokGrups}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.stok }</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.stok}</td>
         `;
         productsTable.appendChild(tr);
     });
@@ -83,7 +83,7 @@ async function openModalStockOpname() {
     let idDepo = document.getElementById('depoFilter').value;
     const modal = document.getElementById('addModal');
     const modalTitle = document.getElementById('modalTitle');
-    modalTitle.innerHTML = 'Stock Opname';
+    modalTitle.innerHTML = 'Input Barang keluar';
     const form = document.getElementById('inputDataForm');
     form.innerHTML = '';
     let formFrom = document.createElement('div');
@@ -93,7 +93,7 @@ async function openModalStockOpname() {
                         type="hidden" 
                         id="id" 
                         name="id" 
-                        value="/api/gudang/stok/${idDepo}"
+                        value="${idDepo}"
                     >
                     <label for="barang" class="block mb-1 font-medium">nama barang</label>
                     <input 
@@ -157,28 +157,29 @@ async function openModalStockOpname() {
                     </div>
                 </div>
                 <div>
-                    <label for="stokRealBesar" class="block mb-1 font-medium">Stok Real Satuan Besar</label>
+                    <label for="stokKeluar" class="block mb-1 font-medium">Stok Keluar</label>
                     <div class="flex">
                         <input
                             type="number" 
-                            id="stokRealBesar" 
-                            name="stokRealBesar" 
+                            id="stokKeluar" 
+                            name="stokKeluar" 
                             class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-indigo-400"
                             placeholder="Masukkan jumlah"
                         >
-                        <span id="SatuanBesarReal" class="px-3 py-2 bg-gray-100 border border-l-0 border-gray-300 rounded-r-md text-gray-700 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300">
+                        <span id="SatuanKecilReal2" class="px-3 py-2 bg-gray-100 border border-l-0 border-gray-300 rounded-r-md text-gray-700 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300">
                             unit
                         </span>
                     </div>
                 </div>
                 <div>
-                    <label for="stokRealKecil" class="block mb-1 font-medium">Stok Real</label>
+                    <label for="stokSisa" class="block mb-1 font-medium">Stok Sisa</label>
                     <div class="flex">
                         <input 
                             type="number" 
-                            id="stokRealKecil" 
-                            name="stokRealKecil" 
+                            id="stokSisa" 
+                            name="stokSisa" 
                             required
+                            readonly
                             class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-indigo-400"
                             placeholder="Masukkan jumlah"
                         >
@@ -232,7 +233,7 @@ async function openModalStockOpname() {
             document.getElementById('stokDepoBesar').value = parseInt(dataStok.data.stokGrups);
             document.getElementById('SatuanKecil').innerHTML = dataStok.data.satuan_kecil;
             document.getElementById('stokDepo').value = parseInt(dataStok.data.stok);
-            document.getElementById('SatuanBesarReal').innerHTML = dataStok.data.satuan_besar;
+            document.getElementById('SatuanKecilReal2').innerHTML = dataStok.data.satuan_kecil;
             document.getElementById('SatuanKecilReal').innerHTML = dataStok.data.satuan_kecil;
         } else {
             document.getElementById('namaBarang').value = '';
@@ -244,12 +245,15 @@ async function openModalStockOpname() {
 
 
     });
-    let stokGrupReal = document.getElementById('stokRealBesar');
+    let stokGrupReal = document.getElementById('stokKeluar');
     stokGrupReal.addEventListener('input', async function () {
 
-        let isi = satuanBesarSpan;
-        let stokKecilReal = stokGrupReal.value * isi;
-        document.getElementById('stokRealKecil').value = stokKecilReal;
+        let isi = parseInt(document.getElementById('stokDepo').value);
+        if (parseInt(this.value) > isi) {
+            this.value = isi; // Force value back to max
+        }
+        let stokKecilReal = isi - parseInt(stokGrupReal.value);
+        document.getElementById('stokSisa').value = stokKecilReal;
     })
 
 }
@@ -280,7 +284,8 @@ inputDataForm.addEventListener('submit', async function (event) {
         });
         return;
     }
-    let kirim = await fetchData(`/api/gudang/opname/${idDepo}`, 'POST', data);
+    console.log(data);
+    let kirim = await fetchData(`/api/gudang/keluar/${idDepo}`, 'POST', data);
 
     if (kirim.status === 200) {
         Swal.fire({

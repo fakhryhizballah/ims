@@ -17,7 +17,7 @@ router.get('/products', verifyToken, dashboardController.products);
 router.get('/gudang', verifyToken, dashboardController.gudangs);
 router.get('/gudang/opname', verifyToken, dashboardController.opnames);
 router.get('/gudang/barangmasuk', verifyToken, dashboardController.barangMasuk);
-// router.get('/gudang/barangkeluar', verifyToken, dashboardController.barangKeluar);
+router.get('/gudang/barangkeluar', verifyToken, dashboardController.barangKeluar);
 router.get('/gudang/riwayatstok', verifyToken, dashboardController.riwayatStok);
 router.get('/', verifyToken, (req, res) => {
     res.redirect('/dashboard');
@@ -43,6 +43,7 @@ router.post('/api/gudang', verifyToken, api.addGudang);
 router.get('/api/gudang/stok/:kode_depo', verifyToken, api.getStokByDepo);
 router.get('/api/gudang/stokall/:kode_depo', verifyToken, api.getAllBarangWithStok);
 router.post('/api/gudang/opname/:kode_depo', verifyToken, api.stokOpname);
+router.post('/api/gudang/keluar/:kode_depo', verifyToken, api.barangKeluar);
 
 router.post('/api/penerimaan/addPenerimaan', verifyToken, api.addPenerimaan);
 router.get('/api/penerimaan/cari', verifyToken, api.getDataPenerima);
