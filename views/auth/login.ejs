@@ -128,3 +128,17 @@ inputNowa.addEventListener('input', function() {
 
 
 </script>
+<script>
+   // index.js (atau file JavaScript utama Anda)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/assets/js/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker berhasil terdaftar:', registration);
+      })
+      .catch((error) => {
+        console.log('Pendaftaran Service Worker gagal:', error);
+      });
+  });
+}
+</script>

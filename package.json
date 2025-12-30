@@ -20,6 +20,7 @@
         "mariadb": "^3.4.5",
         "redis": "^5.8.2",
         "sequelize": "^6.37.7",
+        "serve-favicon": "^2.5.1",
         "tailwindcss": "^4.1.14"
     },
     "devDependencies": {

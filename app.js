@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const { createClient } = require('redis');
+const favicon = require('serve-favicon');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,9 @@ app.use(cookieParser());
 // View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(favicon(path.join(__dirname + '/public/', 'favicon.ico')));
+app.use("/assets/site.webmanifest", express.static(path.join(__dirname + '/public/site.webmanifest')))
+app.use("/assets/favicon.ico", express.static(path.join(__dirname + '/public/favicon.ico')))
 
 // Routes
 
