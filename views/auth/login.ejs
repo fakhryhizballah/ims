@@ -81,10 +81,7 @@
         </form>
         </div>
     </div>
-</body>
-</html>
-
-<script>
+    <script>
     // localStorage.clear();
     localStorage.removeItem('tenan');
     localStorage.removeItem('selectedTenan');
@@ -142,3 +139,20 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<script>
+     console.log('PWA debug: initializing install checks');
+
+    try {
+        const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        if (isStandalone) {
+            console.log('PWA debug: running in standalone mode (likely installed)');
+        } else {
+            console.log('PWA debug: not running in standalone mode (not installed)');
+        }
+    } catch (err) {
+        console.log('PWA debug: error while checking standalone state', err);
+    }
+
+</script>
+</body>
+</html>
