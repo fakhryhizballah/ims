@@ -203,7 +203,9 @@ const usersController = {
             const vendor = await Supplier.create({
                 tenan_id: tenan_id,
                 kode_supplier: tenan_id + '-' + slug,
-                ...req.body
+                supplier: req.body.supplier,
+                alamat: req.body.alamat,
+                nowa: req.body.nowa
             }, { transaction: t });
             console.log(vendor);
             t.commit();
