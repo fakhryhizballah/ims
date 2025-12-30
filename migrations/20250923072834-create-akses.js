@@ -41,8 +41,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    // Menambahkan index unik untuk pasangan id_user dan id_tenan
-    await queryInterface.addIndex('Akses', ['user_username', 'id_tenan'], {
+    // Menambahkan index unik untuk pasangan id_user dan tenan_id
+    await queryInterface.addIndex('Akses', ['user_username', 'tenan_id'], {
       unique: true,
       name: 'user_tenan_access_unique'
     });
