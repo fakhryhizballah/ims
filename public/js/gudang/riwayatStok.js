@@ -104,6 +104,17 @@ function renderProductsTable(barangList) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Ensure the date input doesn't trigger the on-screen keyboard (readonly + inputmode)
+    const tanggalFilterEl = document.getElementById('tanggalFilter');
+    if (tanggalFilterEl) {
+        tanggalFilterEl.setAttribute('readonly', 'readonly');
+        tanggalFilterEl.setAttribute('inputmode', 'none');
+        // Prevent typing/pasting into the input
+        tanggalFilterEl.addEventListener('keydown', function (e) { e.preventDefault(); });
+        tanggalFilterEl.addEventListener('keypress', function (e) { e.preventDefault(); });
+        tanggalFilterEl.addEventListener('paste', function (e) { e.preventDefault(); });
+    }
+
     // Initialize the date range picker
     $('#tanggalFilter').daterangepicker({
         opens: 'left',
