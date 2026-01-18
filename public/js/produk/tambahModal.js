@@ -94,17 +94,12 @@ jenisBarang();
 // Contoh submit form (bisa disesuaikan)
 inputDataForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log('inputDataForm');
 
     // Ambil data form
     const formData = new FormData(inputDataForm);
     const data = Object.fromEntries(formData.entries());
     if (data.kode_barang) {
-        console.log('edit')
         let kirim = await fetchData('/api/barang/edit', 'POST', data);
-
-        // Access the status code here
-        console.log('Edit Response Status Code:', kirim);
         let icon = kirim.res.status === 200 ? "success" : "warning";
         Swal.fire({
             position: "top-end",
@@ -121,11 +116,9 @@ inputDataForm.addEventListener('submit', async (e) => {
         return;
     }
 
-    console.log('Data barang:', data);
     let kirim = await fetchData('/api/barang', 'POST', data);
     let icon = kirim.res.status === 200 ? "success" : "warning";
     // Access the status code here
-    console.log('Add Response Status Code:', kirim);
 
     Swal.fire({
         position: "top-end",
