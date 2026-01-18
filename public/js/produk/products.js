@@ -43,7 +43,7 @@ function tabelProduct(data) {
                 <button onClick="openModalEditProduct('${x.kode_barang}')" class="bg-indigo-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-indigo-700 transition-colors dark:hover:bg-indigo-800">
                     <i class="fas fa-edit mr-1"></i>Edit
                 </button>
-                <button class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors dark:hover:bg-red-800">
+                <button onClick="openModalDeleteProduct('${x.nama_barang}')" class="bg-red-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-700 transition-colors dark:hover:bg-red-800">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
@@ -65,3 +65,15 @@ categoryFilter.addEventListener('change', async () => {
     let main = await fetchData(`/api/barang/cari?nama_barang=${cari}&jenis_barang=${categoryFilter.value}`, 'GET');
     tabelProduct(main.data);
 });
+
+async function openModalDeleteProduct(nama) {
+    Swal.fire({
+        position: "middle",
+        icon: "warning",
+        toast: true,
+        title: 'Maaf ' + nama + ' tidak bisa di hapus',
+        showConfirmButton: false,
+        timer: 1500,
+    })
+
+}

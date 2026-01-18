@@ -1,15 +1,5 @@
 <script>
-    // const fetchData = async (url, method, body) => {
-    //     const response = await fetch(url, {
-    //             method: method,
-    //             body: JSON.stringify(body),
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             });
-    //             const data = await response.json();
-    //             return data;
-    // }
+
     async function fetchData(url, method, body) {
         const response = await fetch(url, {
             method: method,
@@ -19,6 +9,7 @@
             },
             });
             const data = await response.json();
+            data.res = response
             return data;
     }
     const saveTenant = async () => {

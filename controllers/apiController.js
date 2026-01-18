@@ -71,7 +71,7 @@ const usersController = {
                 }
             }, { transaction: t });
             if (isexistBarang) {
-                await t.rollback(); x
+                await t.rollback(); 
                 return res.status(400).json({ message: 'Barang sudah ada' });
             }
             let isexistJenisBarang = await JenisBarang.findOne({
@@ -146,7 +146,9 @@ const usersController = {
             }
 
             // Update barang details
+            console.log(slugBarang);
             await barang.update({
+                kode_barang: slugBarang,
                 nama_barang: nama_barang,
                 jenis_barang: slugJenis,
                 satuan_besar: req.body.satuan_besar,
@@ -161,6 +163,9 @@ const usersController = {
         } catch (error) {
             console.error(error);
             await t.rollback();
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(400).json({ message: 'Barang nama barang sudah ada' });
+            }
             return res.status(500).json({ message: 'Internal Server Error', data: error });
         }
     },

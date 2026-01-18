@@ -2,6 +2,7 @@ const openModalAddProduct = document.getElementById('btnopenModalAddProduct');
 const addProductModal = document.getElementById('addProductModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const inputDataForm = document.getElementById('inputDataForm');
+const editProductModal = document.getElementById('editProductModal');
 
 openModalAddProduct.addEventListener('click', () => {
     addProductModal.classList.remove('hidden');
@@ -9,6 +10,22 @@ openModalAddProduct.addEventListener('click', () => {
     document.getElementById('simpan').innerHTML = "Simpan";
 
 });
+async function openModalEditProduct(kode_barang) {
+    addProductModal.classList.remove('hidden');
+    let dataBarang = await fetchData(`/api/barang?kode_barang=${kode_barang}`, 'GET');
+    inputDataForm.reset();
+    inputDataForm.kode_barang.value = dataBarang.data[0].kode_barang;
+    inputDataForm.nama_barang.value = dataBarang.data[0].nama_barang;
+    inputDataForm.jenis_barang.value = dataBarang.data[0].jenisbarang.jenis_barang;
+    inputDataForm.satuan_besar.value = dataBarang.data[0].satuan_besar;
+    inputDataForm.kapasitas.value = dataBarang.data[0].isi;
+    inputDataForm.satuan_kecil.value = dataBarang.data[0].satuan_kecil;
+    inputDataForm.hargaRp.value = new Intl.NumberFormat('id-ID').format(dataBarang.data[0].harga);
+    inputDataForm.hiddenHarga.value = dataBarang.data[0].harga;
+    document.getElementById('simpan').innerHTML = "Edit";
+
+
+}
 
 cancelBtn.addEventListener('click', () => {
     addProductModal.classList.add('hidden');
@@ -84,13 +101,16 @@ inputDataForm.addEventListener('submit', async (e) => {
     const data = Object.fromEntries(formData.entries());
     if (data.kode_barang) {
         console.log('edit')
-        await fetchData('/api/barang/edit', 'POST', data);
+        let kirim = await fetchData('/api/barang/edit', 'POST', data);
 
+        // Access the status code here
+        console.log('Edit Response Status Code:', kirim);
+        let icon = kirim.res.status === 200 ? "success" : "warning";
         Swal.fire({
             position: "top-end",
-            icon: "success",
+            icon: icon,
             toast: true,
-            title: "Data barang berhasil ditambahkan",
+            title: kirim.message,
             showConfirmButton: false,
             timer: 1500,
         }).then(() => {
@@ -102,12 +122,16 @@ inputDataForm.addEventListener('submit', async (e) => {
     }
 
     console.log('Data barang:', data);
-    await fetchData('/api/barang', 'POST', data);
+    let kirim = await fetchData('/api/barang', 'POST', data);
+    let icon = kirim.res.status === 200 ? "success" : "warning";
+    // Access the status code here
+    console.log('Add Response Status Code:', kirim);
+
     Swal.fire({
         position: "top-end",
-        icon: "success",
+        icon: icon,
         toast: true,
-        title: "Data barang berhasil ditambahkan",
+        title: kirim.message,
         showConfirmButton: false,
         timer: 1500,
     }).then(() => {
