@@ -5,6 +5,9 @@ const inputDataForm = document.getElementById('inputDataForm');
 
 openModalAddProduct.addEventListener('click', () => {
     addProductModal.classList.remove('hidden');
+    inputDataForm.reset();
+    document.getElementById('simpan').innerHTML = "Simpan";
+
 });
 
 cancelBtn.addEventListener('click', () => {
@@ -19,7 +22,7 @@ addProductModal.addEventListener('click', (e) => {
 });
 
 let inputHarga = document.getElementById('hargaRp');
-let hidden = document.getElementById('harga');
+let hiddenHarga = document.getElementById('harga');
 inputHarga.addEventListener('input', function (e) {
     // Ambil hanya angka
     let value = this.value.replace(/[^0-9]/g, '');
@@ -27,10 +30,10 @@ inputHarga.addEventListener('input', function (e) {
     // Format ke Rupiah
     if (value) {
         this.value = new Intl.NumberFormat('id-ID').format(value);
-        hidden.value = value;
+        hiddenHarga.value = value;
     } else {
         this.value = '';
-        hidden.value = '';
+        hiddenHarga.value = '';
     }
 });
 let getSatuanList = async () => {
@@ -45,7 +48,7 @@ let getSatuanList = async () => {
         satuanSelect.appendChild(option);
     });
     let satuan_kecil = document.getElementById('satuan_kecil');
-    satuan_kecil.innerHTML = '<option value="" disabled selected>Pilih satuan kecil</option>';
+    satuan_kecil.innerHTML = '<option value="" disabled selected>Pilih satuan kecilss</option>';
     satuanList.forEach(satuan => {
         const option = document.createElement('option');
         option.value = satuan.slug;
@@ -74,19 +77,32 @@ jenisBarang();
 // Contoh submit form (bisa disesuaikan)
 inputDataForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log('inputDataForm');
 
     // Ambil data form
     const formData = new FormData(inputDataForm);
     const data = Object.fromEntries(formData.entries());
+    if (data.kode_barang) {
+        console.log('edit')
+        await fetchData('/api/barang/edit', 'POST', data);
+
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            toast: true,
+            title: "Data barang berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+        }).then(() => {
+            inputDataForm.reset();
+            addProductModal.classList.add('hidden');
+            index();
+        });
+        return;
+    }
 
     console.log('Data barang:', data);
     await fetchData('/api/barang', 'POST', data);
-
-    // TODO: Kirim data ke server atau proses sesuai kebutuhan
-
-    // Tutup modal dan reset form
-    // dataModal.classList.add('hidden');
-    // inputDataForm.reset();
     Swal.fire({
         position: "top-end",
         icon: "success",
