@@ -1,4 +1,4 @@
-const openModalAddProduct = document.getElementById('openModalAddProduct');
+const openModalAddProduct = document.getElementById('btnopenModalAddProduct');
 const addProductModal = document.getElementById('addProductModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const inputDataForm = document.getElementById('inputDataForm');
